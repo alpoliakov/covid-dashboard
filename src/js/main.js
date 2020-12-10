@@ -1,3 +1,4 @@
 import '../styles/main.sass';
 
-console.log('Hello word!');
+// Checking the webpack operation. Can be deleted.
+console.log('Create a develop branch.');
