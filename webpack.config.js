@@ -37,7 +37,6 @@ const optimization = () => {
     },
   };
   if (prod) {
-    // eslint-disable-next-line no-unused-expressions,no-sequences
     (config.minimize = true),
       (config.minimizer = [
         new CssMinimizerPlugin({
@@ -59,10 +58,10 @@ const optimization = () => {
 
 module.exports = {
   mode: dev ? 'development' : 'production',
-  devtool: prod ? 'source-map' : 'inline-source-map',
+  devtool: prod ? 'cheap-source-map' : 'inline-cheap-source-map',
   context: PATHS.src,
   entry: {
-    main: './js/main.js',
+    main: './main.js',
   },
 
   output: {
