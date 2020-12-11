@@ -1,11 +1,13 @@
-@import "utils/normalize"
-@import "utils/variables"
-@import "utils/scaffolding"
+@import "utils/styles/normalize"
+@import "utils/styles/variables"
+@import "utils/styles/scaffolding"
+@import "components/header/header"
+@import "components/footer/footer"
+@import "components/main/root"
 
 *,
-*:after,
-*:before
+*::after,
+*::before
 	box-sizing: border-box
+	outline: none
 
-h1
-	color: $color-tomato
