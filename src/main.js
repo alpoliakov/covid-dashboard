@@ -1,14 +1,10 @@
 import './main.sass';
-
-const addListener = () => {
-  const { body } = document;
-  body.addEventListener('click', e => {
-    console.log(e.target);
-  });
-};
+import addListeners from './services/add-listeners';
+import handlerEventClick from './services/handlers-events';
 
 const startApp = () => {
-  addListener();
+  const { body } = document;
+  addListeners(body, 'click', handlerEventClick);
 };
 
 document.addEventListener('DOMContentLoaded', startApp);
