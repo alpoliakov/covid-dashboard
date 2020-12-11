@@ -1,7 +1,14 @@
 import './main.sass';
 
+const addListener = () => {
+  const { body } = document;
+  body.addEventListener('click', e => {
+    console.log(e.target);
+  });
+};
+
 const startApp = () => {
-  console.log('App is running.');
+  addListener();
 };
 
 document.addEventListener('DOMContentLoaded', startApp);

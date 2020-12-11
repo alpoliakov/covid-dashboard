@@ -37,6 +37,7 @@ const optimization = () => {
     },
   };
   if (prod) {
+    // eslint-disable-next-line no-unused-expressions,no-sequences
     (config.minimize = true),
       (config.minimizer = [
         new CssMinimizerPlugin({
@@ -58,7 +59,7 @@ const optimization = () => {
 
 module.exports = {
   mode: dev ? 'development' : 'production',
-  devtool: prod ? 'cheap-source-map' : 'inline-cheap-source-map',
+  devtool: prod ? '' : 'cheap-source-map',
   context: PATHS.src,
   entry: {
     main: './main.js',
@@ -76,7 +77,7 @@ module.exports = {
     // hot: true,
     open: true,
     // hotOnly: dev,
-    // liveReload: true,
+    liveReload: true,
     watchContentBase: true,
     overlay: dev,
   },
