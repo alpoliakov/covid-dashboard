@@ -17,8 +17,26 @@
 	<title>COVID-19 Dashboard</title>
 </head>
 <body>
-	<div id="cursor"></div>
-	<div id="aura"></div>
-	<div id="root" class="root"></div>
+	<div class="container">
+		<header class="header">
+			<h1 class="header__title">COVID-19 Dashboard</h1>
+		</header>
+		<div id="root" class="root">
+			<div class="root__item root__item_counter"></div>
+			<div class="root__item root__item_country"></div>
+			<div class="root__item root__item_date"></div>
+			<div class="root__item root__item_map"></div>
+			<div class="root__item root__item_details"></div>
+			<div class="root__item root__item_graph"></div>
+		</div>
+		<footer class="footer">
+			<a class="footer__item footer__link" href="https://rs.school/js/" target="_blank">
+				<img class="footer__img" src="./assets/icons/rs-school-logo.svg" alt="Logo RS-School">
+			</a>
+			<p class="footer__item footer__creator">
+				Created: 2020, <a href="https://github.com/alpoliakov" target="_blank"><span class="span__link text-success">@alpoliakov</span></a>
+			</p>
+		</footer>
+	</div>
 </body>
 </html>

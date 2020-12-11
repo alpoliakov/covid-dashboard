@@ -1,0 +1,39 @@
+@import "../../utils/styles/variables"
+
+#root
+	width: 98%
+	height: 100%
+	grid-area: root
+	margin: 0 auto
+	display: grid
+	gap: 20px
+	grid: 'counter counter map map map map map map details details details' 'country country map map map map map map details details details' 'country country map map map map map map details details details' 'country country map map map map map map graph graph graph' 'date date map map map map map map graph graph graph'
+
+.root__item
+	border: 1px solid rgba($color-grey, .3)
+	box-shadow: $box-shadows
+	border-radius: 5px
+	transition: 0.4s
+	cursor: pointer
+	background-color: rgba($theme-color, .3)
+
+	&:hover
+		box-shadow: $box-shadows-hover
+
+.root__item_counter
+	grid-area: counter
+
+.root__item_country
+	grid-area: country
+
+.root__item_date
+	grid-area: date
+
+.root__item_map
+	grid-area: map
+
+.root__item_details
+	grid-area: details
+
+.root__item_graph
+	grid-area: graph
