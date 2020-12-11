@@ -1,0 +1,30 @@
+@import "../../utils/styles/variables"
+
+.footer
+	display: grid
+	grid: 'logo creator' / 1fr 1fr
+	width: 100%
+	margin: 0 auto
+	position: sticky
+	bottom: 0
+	padding: 20px 0
+
+.footer__item
+	justify-self: center
+	filter: $drop-shadow
+	transition: 0.4s ease-in-out
+
+	&:hover
+		filter: $drop-shadow-hover
+
+.footer__img
+	width: 100px
+	height: 37px
+
+.footer__link
+	grid-area: logo
+	display: flex
+	align-items: center
+
+.footer__creator
+	grid-area: creator
