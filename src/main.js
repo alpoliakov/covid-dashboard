@@ -4,6 +4,7 @@ import handlerEventClick from './services/handlers-events';
 
 const startApp = () => {
   const { body } = document;
+
   addListeners(body, 'click', handlerEventClick);
 };
 
