@@ -80,10 +80,6 @@ module.exports = {
     liveReload: true,
     watchContentBase: true,
     overlay: dev,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      https: true,
-    },
   },
 
   performance: {
