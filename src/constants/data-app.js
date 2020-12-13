@@ -54,6 +54,7 @@ const dataApp = [
   {
     tag: 'div',
     classes: ['root__item', 'root__item_map'],
+    children: [{ tag: 'div', id: 'myMap' }],
   },
   {
     tag: 'div',
@@ -90,4 +91,6 @@ const dataApp = [
   },
 ];
 
-export default dataApp;
+const arrDataElements = [];
+
+export { dataApp, arrDataElements };

@@ -14,6 +14,13 @@
 	<link rel="icon" type="image/png" href="./static/favicon-32x32.png" sizes="32x32">
 	<link rel="icon" type="image/png" href="./static/favicon-16x16.png" sizes="16x16">
 	<link rel="shortcut icon" href="./static/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+	      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+	      crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+	        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+	        crossorigin="">
+	</script>
 	<title>COVID-19 Dashboard</title>
 </head>
 <body>
@@ -60,7 +67,9 @@
 <!--			<div class="root__item root__item_date">-->
 <!--				<h1>Date</h1>-->
 <!--			</div>-->
-<!--			<div class="root__item root__item_map"></div>-->
+<!--			<div class="root__item root__item_map">-->
+<!--				<div id="myMap"></div>-->
+<!--			</div>-->
 <!--			<div class="root__item root__item_details tables">-->
 <!--				<div class="root__item_details-header tables__header">-->
 <!--					<h4>Header</h4>-->
@@ -86,5 +95,12 @@
 			</p>
 		</footer>
 	</div>
+<!--	<script>-->
+<!--    const myMap = L.map('myMap').setView([0, 150], 2);-->
+<!--    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';-->
+<!--    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';-->
+<!--    const tiles = L.tileLayer(tileUrl, { attribution });-->
+<!--    tiles.addTo(myMap);-->
+<!--	</script>-->
 </body>
 </html>

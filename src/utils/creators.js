@@ -1,9 +1,20 @@
-const creator = () => {
-  const createElement = ({ tag, classes = [], attributes = {}, innerText = '', children = [] }) => {
+const creators = () => {
+  const createElement = ({
+    tag,
+    id = '',
+    classes = [],
+    attributes = {},
+    innerText = '',
+    children = [],
+  }) => {
     const element = document.createElement(tag);
 
     if (classes.length > 0) {
       element.classList.add(...classes);
+    }
+
+    if (id !== '') {
+      element.id = id;
     }
 
     Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
@@ -27,10 +38,19 @@ const creator = () => {
     }
   };
 
+  const createObjElement = (elem, classes = [], children = []) => {
+    return Object.assign(Object.create(null), {
+      tag: elem,
+      classes,
+      children,
+    });
+  };
+
   return {
     createElement,
     elementFactory,
+    createObjElement,
   };
 };
 
-export default creator;
+export default creators;
