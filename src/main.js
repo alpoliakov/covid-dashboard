@@ -1,11 +1,9 @@
 import './main.sass';
-import addListeners from './services/add-listeners';
-import handlerEventClick from './services/handlers-events';
+import App from './components/main';
 
 const startApp = () => {
-  const { body } = document;
-
-  addListeners(body, 'click', handlerEventClick);
+  const { createStartPage } = App();
+  createStartPage();
 };
 
 document.addEventListener('DOMContentLoaded', startApp);
