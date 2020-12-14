@@ -1,7 +1,14 @@
-const API_BASE = 'https://covid-api.mmediagroup.fr/v1/cases';
-const GET_CASES = '/cases?country=';
-const GET_HISTORY = '/history?country=France&status=Confirmed';
+const CASES_COUNTRY_AND_PROVINCES = 'https://disease.sh/v3/covid-19/jhucsse';
+const GET_HISTORY = 'https://disease.sh/v3/covid-19/historical?lastdays=';
+const TOTAL_CASES_TODAY_PATH = 'https://disease.sh/v3/covid-19/all?yesterday=0';
+const COUNTRIES_CASES_PATH = 'https://corona.lmao.ninja/v2/countries';
 
-const SOME = 'https://covid-api.mmediagroup.fr/v1/cases';
+const SOME = `${COUNTRIES_CASES_PATH}`;
 
-export { API_BASE, GET_CASES, GET_HISTORY, SOME };
+export {
+  GET_HISTORY,
+  SOME,
+  TOTAL_CASES_TODAY_PATH,
+  COUNTRIES_CASES_PATH,
+  CASES_COUNTRY_AND_PROVINCES,
+};

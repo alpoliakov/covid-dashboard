@@ -1,14 +1,8 @@
 import './main.sass';
-import addListeners from './services/add-listeners';
-import getDataFromCovidAPI from './services/get-data-from-api';
-import wrapFetchAsync from './utils/requests';
-import { SOME } from './constants/api';
-import { createStartPage, handlerEventClick } from './components/main';
+import App from './components/main';
 
 const startApp = () => {
-  const { body } = document;
-  wrapFetchAsync(SOME, getDataFromCovidAPI);
-  addListeners(body, 'click', handlerEventClick);
+  const { createStartPage } = App();
   createStartPage();
 };
 
