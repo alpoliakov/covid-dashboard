@@ -6,3 +6,13 @@
 
 .countries
 	border-bottom: 1px solid $color-grey
+	transition: 0.4s
+
+	&:hover
+		transform: translate3d(2px, 2px, 2px)
+
+	&:hover > .name__country
+		color: tomato
+
+.name__country
+	filter: $drop-shadow
