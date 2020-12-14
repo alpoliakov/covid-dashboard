@@ -2,7 +2,17 @@
 
 const fetchAsync = async url => {
   try {
-    const response = await fetch(url, { mode: 'cors', credentials: 'include' });
+    const response = await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      redirect: 'follow',
+      cache: 'default',
+      referrerPolicy: 'no-referrer',
+    });
     const data = await response.json();
     return data;
   } catch (e) {

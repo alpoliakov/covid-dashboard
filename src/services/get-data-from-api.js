@@ -1,10 +1,10 @@
-// import wrapFetchAsync from '../utils/requests';
-// import dataApp from '../constants/data-app';
+import useLocalStorage from '../utils/local-storage-accessors';
 
-const getDataFromCovidAPI = data => {
-  console.log(data);
+const getDataCountriesTotalFromAPI = data => {
+  const { getDataFromLocalStorage, setDataToLocalStorage } = useLocalStorage();
+  if (data && getDataFromLocalStorage('countries_total').length === 0) {
+    setDataToLocalStorage('countries_total', data);
+  }
 };
 
-// const setDataCovidInLocal = arr => {};
-
-export default getDataFromCovidAPI;
+export default getDataCountriesTotalFromAPI;
