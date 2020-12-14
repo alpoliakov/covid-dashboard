@@ -27,14 +27,13 @@ const Map = () => {
   };
 
   const setMarkersInMap = (map, data) => {
-    console.log(data);
     if (data.length === 0) {
       return;
     }
+
     data.forEach(item => {
       const { lat, long } = item.countryInfo;
       const { country, cases, deaths, casesPerOneMillion } = item;
-      console.log(casesPerOneMillion);
       const radius = setRadius(casesPerOneMillion);
 
       const icon = {
@@ -56,6 +55,7 @@ const Map = () => {
       'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=iOay4iXHmxfQ4n471QOS';
     const tiles = L.tileLayer(tileUrl, { attribution, minZoom: 2 });
     tiles.addTo(map);
+
     L.control.scale({ position: 'topright' }).addTo(map);
     setMarkersInMap(map, data);
   };
