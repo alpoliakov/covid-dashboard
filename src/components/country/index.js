@@ -1,5 +1,6 @@
 import creators from '../../utils/creators';
 import './countries.sass';
+import sortElements from '../../services/sort-elements';
 
 const countriesTable = () => {
   const { createElement } = creators();
@@ -21,8 +22,20 @@ const countriesTable = () => {
     parent.append(...arrChildren);
   };
 
+  const sortCountries = elem => {
+    const parentLists = elem.parentElement.nextElementSibling;
+    const dirModifier = elem.dataset.sort === 'true';
+    if (elem.classList.contains('btn__sort_alphabet')) {
+      sortElements(parentLists, 1, dirModifier);
+    }
+    if (elem.classList.contains('btn__sort_numeric')) {
+      sortElements(parentLists, 2, dirModifier);
+    }
+  };
+
   return {
     setCountries,
+    sortCountries,
   };
 };
 

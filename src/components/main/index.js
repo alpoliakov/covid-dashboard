@@ -7,14 +7,17 @@ import setDataToDB from '../../services/get-data-from-api';
 import useLocalStorage from '../../utils/local-storage-accessors';
 import countriesTable from '../country';
 import detailedTable from '../detailed-table';
+import addListeners from '../../services/add-listeners';
+import getElement from '../../utils/get-element';
+import toggleClasses from '../../utils/toggler-classes';
 
 const App = () => {
-  const root = document.getElementById('root');
+  const root = getElement('id', 'root');
 
   const { createElement, elementFactory } = creator();
   const { setMap } = Map();
   const { getDataFromLocalStorage } = useLocalStorage();
-  const { setCountries } = countriesTable();
+  const { setCountries, sortCountries } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
 
   const dataUpdateRegulation = keyData => {
@@ -55,7 +58,16 @@ const App = () => {
     }, 600);
   };
 
-  // const getDataFromApi = () => {};
+  const handlerEventClick = e => {
+    const elem = e.target;
+    if (elem.classList.contains('btn__countries_sort')) {
+      toggleClasses({ elem, className: 'active_btn' });
+      elem.dataset.sort = elem.dataset.sort === 'true' ? 'false' : 'true';
+      sortCountries(elem);
+    }
+  };
+
+  addListeners(root, 'click', handlerEventClick);
 
   return {
     initialApp,
