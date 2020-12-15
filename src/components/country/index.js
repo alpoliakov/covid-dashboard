@@ -22,14 +22,13 @@ const countriesTable = () => {
     parent.append(...arrChildren);
   };
 
-  const sortCountries = elem => {
-    const parentLists = elem.parentElement.nextElementSibling;
+  const sortCountries = (elem, parent) => {
     const dirModifier = elem.dataset.sort === 'true';
     if (elem.classList.contains('btn__sort_alphabet')) {
-      sortElements(parentLists, 1, dirModifier);
+      sortElements(parent, 1, dirModifier);
     }
     if (elem.classList.contains('btn__sort_numeric')) {
-      sortElements(parentLists, 2, dirModifier);
+      sortElements(parent, 2, dirModifier);
     }
   };
 

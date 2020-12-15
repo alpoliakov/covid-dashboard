@@ -61,9 +61,10 @@ const App = () => {
   const handlerEventClick = e => {
     const elem = e.target;
     if (elem.classList.contains('btn__countries_sort')) {
+      const parentLists = elem.parentElement.nextElementSibling;
       toggleClasses({ elem, className: 'active_btn' });
       elem.dataset.sort = elem.dataset.sort === 'true' ? 'false' : 'true';
-      sortCountries(elem);
+      sortCountries(elem, parentLists);
     }
   };
 
