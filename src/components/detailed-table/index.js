@@ -6,7 +6,6 @@ const detailedTable = () => {
 
   const setElementsToDetailedTable = (className, data) => {
     const parent = document.querySelector(className);
-    console.log(parent);
     console.log(data);
     const { flag, country, cases, deaths, recovered } = data;
     const template = [
