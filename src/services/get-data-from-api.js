@@ -1,10 +1,10 @@
 import useLocalStorage from '../utils/local-storage-accessors';
 
-const getDataCountriesTotalFromAPI = data => {
-  const { getDataFromLocalStorage, setDataToLocalStorage } = useLocalStorage();
-  if (data && getDataFromLocalStorage('countries_total').length === 0) {
-    setDataToLocalStorage('countries_total', data);
-  }
+const setDataToDB = (data, key) => {
+  const { setDataToLocalStorage } = useLocalStorage();
+  setDataToLocalStorage(key, data);
+  console.log('A data request was made.');
+  // localStorage.clear();
 };
 
-export default getDataCountriesTotalFromAPI;
+export default setDataToDB;

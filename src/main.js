@@ -2,8 +2,8 @@ import './main.sass';
 import App from './components/main';
 
 const startApp = () => {
-  const { createStartPage } = App();
-  createStartPage();
+  const { initialApp } = App();
+  initialApp();
 };
 
 document.addEventListener('DOMContentLoaded', startApp);

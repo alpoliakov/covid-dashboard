@@ -19,7 +19,32 @@ const dataApp = [
       {
         tag: 'div',
         classes: ['root__item_country-footer', 'tables__footer'],
-        children: [{ tag: 'h4', innerText: 'Footer' }],
+        children: [
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__countries', 'active_btn'],
+            innerText: 'Total',
+            attributes: { dataSort: 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__countries'],
+            innerText: 'Button 2',
+            attributes: { dataSort: 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__countries'],
+            innerText: 'Button 3',
+            attributes: { dataSort: 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__countries'],
+            innerText: 'Button 4',
+            attributes: { dataSort: 'one' },
+          },
+        ],
       },
     ],
   },
@@ -48,7 +73,32 @@ const dataApp = [
       {
         tag: 'div',
         classes: ['root__item_details-footer', 'tables__footer'],
-        children: [{ tag: 'h4', innerText: 'Footer' }],
+        children: [
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__details', 'active_btn'],
+            innerText: 'Total',
+            attributes: { dataSort: 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__details'],
+            innerText: 'Button 2',
+            attributes: { dataSort: 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__details'],
+            innerText: 'Button 3',
+            attributes: { dataSort: 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__details'],
+            innerText: 'Button 4',
+            attributes: { dataSort: 'one' },
+          },
+        ],
       },
     ],
   },
