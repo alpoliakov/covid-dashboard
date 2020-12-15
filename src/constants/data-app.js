@@ -22,13 +22,13 @@ const dataApp = [
           {
             tag: 'button',
             classes: ['btn', 'btn__sort_alphabet', 'btn__countries_sort'],
-            innerText: 'Sort name',
+            innerText: 'sort name',
             attributes: { 'data-sort': 'true' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__sort_numeric', 'btn__countries_sort'],
-            innerText: 'Sort data',
+            innerText: 'sort data',
             attributes: { 'data-sort': 'true' },
           },
         ],
@@ -44,25 +44,25 @@ const dataApp = [
           {
             tag: 'button',
             classes: ['btn', 'btn__countries', 'active_btn'],
-            innerText: 'Total',
+            innerText: 'total',
             attributes: { dataSort: 'one' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__countries'],
-            innerText: 'Last day',
+            innerText: 'last day',
             attributes: { dataSort: 'one' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__countries'],
-            innerText: 'Button 3',
+            innerText: 'deaths',
             attributes: { dataSort: 'one' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__countries'],
-            innerText: 'Button 4',
+            innerText: 'recovered',
             attributes: { dataSort: 'one' },
           },
         ],
@@ -76,7 +76,21 @@ const dataApp = [
   {
     tag: 'div',
     classes: ['root__item', 'root__item_map'],
-    children: [{ tag: 'div', id: 'myMap' }],
+    children: [
+      { tag: 'div', id: 'myMap' },
+      {
+        tag: 'div',
+        classes: ['footer_map'],
+        children: [
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__footer-map', 'active_btn'],
+            innerText: 'Total',
+            attributes: { 'data-sort': 'one' },
+          },
+        ],
+      },
+    ],
   },
   {
     tag: 'div',
@@ -98,25 +112,25 @@ const dataApp = [
           {
             tag: 'button',
             classes: ['btn', 'btn__details', 'active_btn'],
-            innerText: 'Total',
+            innerText: 'total',
             attributes: { dataSort: 'one' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
-            innerText: 'Last day',
+            innerText: 'last day',
             attributes: { dataSort: 'one' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
-            innerText: 'Button 3',
+            innerText: 'button',
             attributes: { dataSort: 'one' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
-            innerText: 'Button 4',
+            innerText: 'button',
             attributes: { dataSort: 'one' },
           },
         ],
