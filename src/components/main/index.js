@@ -7,6 +7,7 @@ import setDataToDB from '../../services/get-data-from-api';
 import useLocalStorage from '../../utils/local-storage-accessors';
 import countriesTable from '../country';
 import detailedTable from '../detailed-table';
+import counter from '../counter';
 
 const App = () => {
   const root = document.getElementById('root');
@@ -16,6 +17,7 @@ const App = () => {
   const { getDataFromLocalStorage } = useLocalStorage();
   const { setCountries } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
+  const { createSelf } = counter();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -52,6 +54,7 @@ const App = () => {
       setMap('myMap', data);
       setCountries(data, '.root__item_country-main');
       setElementsToDetailedTable('.root__item_details-main', dataTotal);
+      createSelf();
     }, 600);
   };
 
