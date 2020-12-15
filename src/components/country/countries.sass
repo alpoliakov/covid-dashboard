@@ -7,13 +7,23 @@
 .countries
 	border-bottom: 1px solid $color-grey
 	transition: 0.4s
+	display: flex
+	align-items: center
 
 	&:hover
-		transform: translate3d(1px, 1px, 3px)
+		transform: translate3d(1px, 1px, 10px)
 
 	&:hover > .name__country
 		color: $color-tomato
 
+.flags
+	width: 1.3rem
+	height: 1rem
+
 .name__country
 	filter: $drop-shadow
-	font-size: 1.1rem
+	font-size: 1rem
+
+@media (min-width: 1280px)
+	.name__country
+		font-size: 1.1rem

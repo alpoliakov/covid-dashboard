@@ -18,3 +18,25 @@ body
 	grid-template-areas: 'header''root''footer'
 	grid-row-gap: 10px
 
+.btn
+	border: none
+	color: $color-secondary-text
+	background: transparent
+	font-size: 1.1rem
+	margin: 10px
+	filter: drop-shadow(10px 10px 10px #001628)
+	transition: 0.3s
+	cursor: pointer
+
+	&:hover
+		filter: drop-shadow(5px 5px 5px #001628)
+		transform: translate3d(0px, 0px, 10px)
+		color: $color-success-text
+
+.active_btn
+	color: $color-danger
+
+
+@media (max-width: 1280px)
+	.btn
+		font-size: 1rem
