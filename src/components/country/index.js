@@ -6,7 +6,7 @@ const countriesTable = () => {
 
   const setCountries = (data, className) => {
     const parent = document.querySelector(className);
-    const arrChildren = data.map(({ country, countryInfo: { iso3, flag } }) => {
+    const arrChildren = data.map(({ country, cases, countryInfo: { iso3, flag } }) => {
       return createElement({
         tag: 'div',
         classes: ['countries'],
@@ -14,6 +14,7 @@ const countriesTable = () => {
         children: [
           { tag: 'img', classes: ['flags'], attributes: { src: flag } },
           { tag: 'p', classes: ['name__country'], innerText: country },
+          { tag: 'p', classes: ['data__country'], innerText: cases },
         ],
       });
     });
