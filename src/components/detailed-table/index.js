@@ -6,7 +6,6 @@ const detailedTable = () => {
 
   const setElementsToDetailedTable = (className, data) => {
     const parent = document.querySelector(className);
-    console.log(data);
     const { flag, country, cases, deaths, recovered } = data;
     const template = [
       { tag: 'img', classes: ['flag__detailed', 'item__detailed'], attributes: { src: flag } },

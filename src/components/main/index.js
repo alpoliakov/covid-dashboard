@@ -50,6 +50,7 @@ const App = () => {
       elementFactory(root, dataApp, createElement);
       const data = getDataFromLocalStorage('countries');
       const dataTotal = getDataFromLocalStorage('world');
+      console.log(data);
       dataTotal.country = 'World';
       dataTotal.flag = 'https://vectorflags.s3-us-west-2.amazonaws.com/flags/org-un-flag-01.png';
       setMap('myMap', data);
@@ -60,9 +61,9 @@ const App = () => {
 
   const handlerEventClick = e => {
     const elem = e.target;
+    console.log(elem.dataset.sortTotal);
     if (elem.classList.contains('btn__countries_sort')) {
       const parentLists = elem.parentElement.nextElementSibling;
-      console.log(parentLists.children.length);
       toggleClasses({ elem, className: 'active_btn' });
       elem.dataset.sort = elem.dataset.sort === 'true' ? 'false' : 'true';
       sortCountries(elem, parentLists);
