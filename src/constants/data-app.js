@@ -10,7 +10,28 @@ const dataApp = [
       {
         tag: 'div',
         classes: ['root__item_country-header', 'tables__header'],
-        children: [{ tag: 'h4', innerText: 'Header' }],
+        children: [
+          {
+            tag: 'img',
+            classes: ['img__sort_zero', 'flags'],
+            innerText: '',
+            attributes: {
+              src: 'https://vectorflags.s3-us-west-2.amazonaws.com/flags/org-un-flag-01.png',
+            },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__sort_alphabet', 'btn__countries_sort'],
+            innerText: 'Sort name',
+            attributes: { dataSort: 'alphabet' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__sort_numeric', 'btn__countries_sort'],
+            innerText: 'Sort data',
+            attributes: { dataSort: 'numeric' },
+          },
+        ],
       },
       {
         tag: 'div',
@@ -29,7 +50,7 @@ const dataApp = [
           {
             tag: 'button',
             classes: ['btn', 'btn__countries'],
-            innerText: 'Button 2',
+            innerText: 'Last day',
             attributes: { dataSort: 'one' },
           },
           {
@@ -83,7 +104,7 @@ const dataApp = [
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
-            innerText: 'Button 2',
+            innerText: 'Last day',
             attributes: { dataSort: 'one' },
           },
           {
