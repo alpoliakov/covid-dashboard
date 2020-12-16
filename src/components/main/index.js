@@ -18,7 +18,7 @@ const App = () => {
   const { setMap } = Map();
   const { getDataFromLocalStorage } = useLocalStorage();
   const { setCountries, sortCountries } = countriesTable();
-  const { setElementsToDetailedTable } = detailedTable();
+  const { setElementsToDetailedTable, updateElementsInDetailedTable } = detailedTable();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -59,6 +59,53 @@ const App = () => {
     }, 600);
   };
 
+  const updateDetailedTable = elem => {
+    if (elem.classList.contains('active_btn')) {
+      return;
+    }
+
+    const parent = elem.parentElement;
+    let buttonGroup;
+
+    if (elem.dataset.sortPeriod) {
+      buttonGroup = parent.querySelectorAll('[data-sort-period]');
+    } else {
+      buttonGroup = parent.querySelectorAll('[data-sort-count]');
+    }
+
+    buttonGroup.forEach(button => {
+      toggleClasses({ elem: button, className: 'active_btn' });
+    });
+
+    const period = parent.querySelector('.active_btn[data-sort-period]').dataset.sortPeriod;
+    const count = parent.querySelector('.active_btn[data-sort-count]').dataset.sortCount;
+
+    const data = getDataFromLocalStorage('world');
+    const currentData = {};
+
+    if (period === 'total') {
+      if (count === 'all') {
+        currentData.cases = data.cases;
+        currentData.deaths = data.deaths;
+        currentData.recovered = data.recovered;
+      } else {
+        currentData.cases = (data.casesPerOneMillion / 10).toFixed(2);
+        currentData.deaths = (data.deathsPerOneMillion / 10).toFixed(2);
+        currentData.recovered = (data.recoveredPerOneMillion / 10).toFixed(2);
+      }
+    } else if (count === 'all') {
+      currentData.cases = data.todayCases;
+      currentData.deaths = data.todayDeaths;
+      currentData.recovered = data.todayRecovered;
+    } else {
+      currentData.cases = (100000 * (data.todayCases / data.population)).toFixed(2);
+      currentData.deaths = (100000 * (data.todayDeaths / data.population)).toFixed(2);
+      currentData.recovered = (100000 * (data.todayRecovered / data.population)).toFixed(2);
+    }
+
+    updateElementsInDetailedTable(currentData);
+  };
+
   const handlerEventClick = e => {
     const elem = e.target;
     console.log(elem.dataset.sortTotal);
@@ -67,6 +114,10 @@ const App = () => {
       toggleClasses({ elem, className: 'active_btn' });
       elem.dataset.sort = elem.dataset.sort === 'true' ? 'false' : 'true';
       sortCountries(elem, parentLists);
+    }
+
+    if (elem.classList.contains('btn__details')) {
+      updateDetailedTable(elem);
     }
   };
 
