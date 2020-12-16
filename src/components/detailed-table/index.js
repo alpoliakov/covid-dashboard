@@ -1,11 +1,13 @@
 import './detaled-table.sass';
 import creators from '../../utils/creators';
+import removeChildrenElements from '../../utils/remove-children-el';
 
 const detailedTable = () => {
   const { createElement } = creators();
 
   const setElementsToDetailedTable = (className, data) => {
     const parent = document.querySelector(className);
+    removeChildrenElements(parent);
     const { flag, country, cases, deaths, recovered } = data;
     const template = [
       { tag: 'img', classes: ['flag__detailed', 'item__detailed'], attributes: { src: flag } },

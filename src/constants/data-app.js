@@ -99,7 +99,14 @@ const dataApp = [
       {
         tag: 'div',
         classes: ['root__item_details-header', 'tables__header'],
-        children: [{ tag: 'h4', innerText: 'Header' }],
+        children: [
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__details', 'btn__details-world', 'active_btn'],
+            innerText: 'world',
+            attributes: { 'data-sort': 'total' },
+          },
+        ],
       },
       {
         tag: 'div',
@@ -113,25 +120,25 @@ const dataApp = [
             tag: 'button',
             classes: ['btn', 'btn__details', 'active_btn'],
             innerText: 'total',
-            attributes: { dataSort: 'one' },
+            attributes: { 'data-sort': 'total' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
             innerText: 'last day',
-            attributes: { dataSort: 'one' },
+            attributes: { 'data-sort': 'lastDay' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
             innerText: 'button',
-            attributes: { dataSort: 'one' },
+            attributes: { 'data-sort': 'relativeTotal' },
           },
           {
             tag: 'button',
             classes: ['btn', 'btn__details'],
             innerText: 'button',
-            attributes: { dataSort: 'one' },
+            attributes: { 'data-sort': 'relativeLast' },
           },
         ],
       },

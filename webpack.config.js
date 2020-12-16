@@ -234,6 +234,14 @@ module.exports = {
         exclude: /node_modules/,
         use: { loader: 'happypack/loader?id=babel' },
       },
+      {
+        test: /\.json5$/i,
+        loader: 'json5-loader',
+        options: {
+          esModule: true,
+        },
+        type: 'javascript/auto',
+      },
     ],
   },
 };
