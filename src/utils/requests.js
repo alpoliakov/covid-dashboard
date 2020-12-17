@@ -1,5 +1,3 @@
-// import axios from 'axios';
-
 const fetchAsync = async url => {
   try {
     const response = await fetch(url, {

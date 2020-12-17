@@ -1,6 +1,5 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import customJSON from '../../services/medium.geo.json';
 
 const Map = () => {
   // const getRadius = num => {
@@ -52,7 +51,7 @@ const Map = () => {
   //   });
   // };
 
-  const setMap = (idElem, data = []) => {
+  const setMap = (idElem, data = [], mode) => {
     const myMap = document.getElementById(idElem);
     const map = L.map(myMap, { worldCopyJump: true }).setView([30, 0], 2);
 
@@ -67,18 +66,17 @@ const Map = () => {
 
     const info = L.control();
 
-    // eslint-disable-next-line no-shadow,no-unused-vars
-    info.onAdd = function (map) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._div = L.DomUtil.create('div', 'info');
+    info.onAdd = function () {
+      this.div = L.DomUtil.create('div', 'info');
       this.update();
-      // eslint-disable-next-line no-underscore-dangle
-      return this._div;
+
+      return this.div;
     };
 
+    console.log(data.features);
+
     info.update = function (props) {
-      // eslint-disable-next-line no-underscore-dangle
-      this._div.innerHTML = `<h4>Country info</h4>${
+      this.div.innerHTML = `<h4>Country info</h4>${
         props ? `<b>${props.country}</b><br />${props.population} people` : 'Hover over a state'
       }`;
     };
@@ -88,11 +86,9 @@ const Map = () => {
     let customLayer;
     function highlightFeature(e) {
       const layer = e.target;
-      // const iso3 = layer.feature.properties.iso_a3;
-      // const countryInfo = data.filter(item => iso3 === item.countryInfo.iso3)[0];
       const countryInfo = {};
       countryInfo.country = layer.feature.properties.admin;
-      countryInfo.population = layer.feature.properties.info.population;
+      countryInfo.population = layer.feature.info.population;
 
       layer.setStyle({
         weight: 3,
@@ -105,8 +101,15 @@ const Map = () => {
         layer.bringToFront();
       }
 
+      const { cases, deaths, recovered } = layer.feature.info[mode];
+
+      const title = `<h4>${layer.feature.properties.admin}</h4>
+                     <p>Cases: ${cases}</p>
+                     <p>Deaths: ${deaths}</p>
+                     <p>Recovered: ${recovered}</p>`;
+
       info.update(countryInfo);
-      layer.bindPopup(layer.feature.properties.admin, { offset: L.point(0, 0) }).openPopup();
+      layer.bindPopup(title, { offset: L.point(0, 0) }).openPopup();
     }
 
     const resetHighlight = e => {
@@ -128,38 +131,17 @@ const Map = () => {
     };
 
     const style = feature => {
-      // data.forEach(item => {
-      //   if (feature.properties.iso_a3 === item.countryInfo.iso3) {
-      //     // feature.info = item;
-      //     feature.properties.cases = item.cases;
-      //   }
-      // });
-
       return {
         weight: 2,
         opacity: 1,
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.5,
-        fillColor: getColor(feature.properties.info.cases),
+        fillColor: getColor(feature.info[mode].cases),
       };
     };
 
-    customJSON.features.forEach(item => {
-      for (let i = 0; i < data.length; i++) {
-        if (item.properties.iso_a3 === data[i].countryInfo.iso3) {
-          item.properties.info = data[i];
-          // item.properties.cases = data[i].cases;
-        }
-      }
-    });
-
-    const jsonCustom = customJSON.features.filter(item => {
-      return Object.prototype.hasOwnProperty.call(item.properties, 'info');
-    });
-
-    // console.log(customJSON.features);
-    customLayer = L.geoJSON(jsonCustom, {
+    customLayer = L.geoJSON(data, {
       style,
       onEachFeature,
     })
@@ -171,8 +153,8 @@ const Map = () => {
     // setMarkersInMap(map, data);
 
     const legend = L.control({ position: 'bottomright' });
-    // eslint-disable-next-line no-shadow,no-unused-vars
-    legend.onAdd = function (map) {
+
+    legend.onAdd = function () {
       const div = L.DomUtil.create('div', 'info legend');
       const grades = [0, 1000, 3000, 20000, 50000, 100000, 250000, 400000, 500000, 1000000];
       const labels = [];
