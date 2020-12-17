@@ -10,7 +10,6 @@ import detailedTable from '../detailed-table';
 import addListeners from '../../services/add-listeners';
 import getElement from '../../utils/get-element';
 import toggleClasses from '../../utils/toggler-classes';
-import { processingReceivedData } from '../../services/processing-received-data';
 import DB from '../../services/db';
 
 const App = () => {
@@ -29,9 +28,8 @@ const App = () => {
       }
       return;
     }
-
     const dateNow = new Date();
-    const dateUpdated = getDataFromLocalStorage(keyData)[0].updated;
+    const dateUpdated = getDataFromLocalStorage(keyData).features[0].info.updated;
     const diff = (dateNow - dateUpdated) / 3600000;
 
     if (diff > 1) {
@@ -50,13 +48,13 @@ const App = () => {
 
     setTimeout(() => {
       elementFactory(root, dataApp, createElement);
-      const data = getDataFromLocalStorage('countries');
-      processingReceivedData(data);
+      const dataJSON = getDataFromLocalStorage('countries');
+      const data = dataJSON.features;
       const dataTotal = getDataFromLocalStorage('world');
       DB.keyForLS = 'world';
-      setMap('myMap', data);
-      setCountries(data, '.root__item_country-main');
-      setElementsToDetailedTable('.root__item_details-main', dataTotal.total);
+      setMap('myMap', dataJSON, 'total');
+      setCountries(data, '.root__item_country-main', 'total');
+      setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
     }, 600);
   };
 
@@ -79,8 +77,8 @@ const App = () => {
 
       const { keyForLS } = DB;
       const data = getDataFromLocalStorage(keyForLS);
-      const prop = elem.dataset.sort;
-      setElementsToDetailedTable('.root__item_details-main', data[prop]);
+      const mode = elem.dataset.sort;
+      setElementsToDetailedTable('.root__item_details-main', data, mode);
       btns.forEach(item => item.classList.remove('active_btn'));
       elem.classList.add('active_btn');
     }

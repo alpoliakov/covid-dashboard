@@ -5,9 +5,11 @@ import sortElements from '../../services/sort-elements';
 const countriesTable = () => {
   const { createElement } = creators();
 
-  const setCountries = (data, className) => {
+  const setCountries = (data, className, mode) => {
     const parent = document.querySelector(className);
-    const arrChildren = data.map(({ country, cases, countryInfo: { iso3, flag } }) => {
+    const arrChildren = data.map(item => {
+      const { country, cases } = item.info[mode];
+      const { iso3, flag } = item.info.countryInfo;
       return createElement({
         tag: 'div',
         classes: ['countries'],

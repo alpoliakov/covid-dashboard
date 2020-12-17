@@ -84,8 +84,38 @@ const dataApp = [
         children: [
           {
             tag: 'button',
-            classes: ['btn', 'btn__footer-map', 'active_btn'],
-            innerText: 'Total',
+            classes: ['btn', 'btn__footer-map'],
+            innerText: 'total',
+            attributes: { 'data-sort': 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__footer-map'],
+            innerText: 'last day',
+            attributes: { 'data-sort': 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__footer-map'],
+            innerText: 'button',
+            attributes: { 'data-sort': 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__footer-map'],
+            innerText: 'button',
+            attributes: { 'data-sort': 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__footer-map'],
+            innerText: 'button',
+            attributes: { 'data-sort': 'one' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__footer-map'],
+            innerText: 'button',
             attributes: { 'data-sort': 'one' },
           },
         ],

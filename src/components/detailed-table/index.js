@@ -5,10 +5,10 @@ import removeChildrenElements from '../../utils/remove-children-el';
 const detailedTable = () => {
   const { createElement } = creators();
 
-  const setElementsToDetailedTable = (className, data) => {
+  const setElementsToDetailedTable = (className, data, mode) => {
     const parent = document.querySelector(className);
     removeChildrenElements(parent);
-    const { flag, country, cases, deaths, recovered } = data;
+    const { flag, country, cases, deaths, recovered } = data[mode];
     const template = [
       { tag: 'img', classes: ['flag__detailed', 'item__detailed'], attributes: { src: flag } },
       { tag: 'h3', classes: ['title__detailed', 'item__detailed'], innerText: country },
