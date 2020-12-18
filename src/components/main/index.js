@@ -21,7 +21,7 @@ const App = () => {
   const { getDataFromLocalStorage } = useLocalStorage();
   const { setCountries, sortCountries } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
-  const { setCounter } = counter();
+  const { setCounter, searchCountries } = counter();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -86,8 +86,15 @@ const App = () => {
       elem.classList.add('active_btn');
     }
   };
+  const handlerEventKeyup = () => {
+    const textToSearch = document.querySelector('.search__form_text').innerText;
+    if (textToSearch.length > 3) {
+      searchCountries(textToSearch);
+    }
+  };
 
   addListeners(root, 'click', handlerEventClick);
+  addListeners(root, 'onkeyup', handlerEventKeyup);
 
   return {
     initialApp,
