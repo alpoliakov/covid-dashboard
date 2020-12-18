@@ -23,9 +23,9 @@ const processingReceivedData = data => {
     const relativeTotal = createObj(
       item.flag,
       item.country,
-      (item.casesPerOneMillion * 10).toFixed(2),
-      (item.deathsPerOneMillion * 10).toFixed(2),
-      (item.recoveredPerOneMillion * 10).toFixed(2),
+      (item.casesPerOneMillion / 10).toFixed(2),
+      (item.deathsPerOneMillion / 10).toFixed(2),
+      (item.recoveredPerOneMillion / 10).toFixed(2),
     );
     const relativeLast = createObj(
       item.flag,
@@ -74,9 +74,9 @@ const receivedTotalData = data => {
   const relativeTotal = createObj(
     data.flag,
     data.country,
-    (data.casesPerOneMillion * 10).toFixed(2),
-    (data.deathsPerOneMillion * 10).toFixed(2),
-    (data.recoveredPerOneMillion * 10).toFixed(2),
+    (data.casesPerOneMillion / 10).toFixed(2),
+    (data.deathsPerOneMillion / 10).toFixed(2),
+    (data.recoveredPerOneMillion / 10).toFixed(2),
   );
 
   const relativeLast = createObj(
