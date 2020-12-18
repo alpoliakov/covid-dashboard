@@ -19,7 +19,12 @@ const App = () => {
   const { createElement, elementFactory } = creator();
   const { setMap } = Map();
   const { getDataFromLocalStorage } = useLocalStorage();
-  const { setCountries, sortCountries } = countriesTable();
+  const {
+    setCountries,
+    sortCountries,
+    // changeCountriesOutputData,
+    dataInsertion,
+  } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
   const { setGraph } = graph();
 
@@ -42,6 +47,12 @@ const App = () => {
     // localStorage.clear();
   };
 
+  const getCountriesData = () => {
+    const dataJSON = getDataFromLocalStorage('countries');
+    const data = dataJSON.features;
+    return { data, dataJSON };
+  };
+
   const initialApp = () => {
     dataUpdateRegulation('countries');
     setInterval(() => {
@@ -50,8 +61,7 @@ const App = () => {
 
     setTimeout(() => {
       elementFactory(root, dataApp, createElement);
-      const dataJSON = getDataFromLocalStorage('countries');
-      const data = dataJSON.features;
+      const { data, dataJSON } = getCountriesData();
       const dataTotal = getDataFromLocalStorage('world');
       DB.keyForLS = 'world';
       setMap('myMap', dataJSON, 'total');
@@ -59,6 +69,86 @@ const App = () => {
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
       setGraph('.root__item_graph-main');
     }, 600);
+  };
+
+  const changeActiveClass = (arr, mode) => {
+    arr.forEach(item => {
+      if (item.dataset.sort === mode) {
+        item.classList.add('active_btn');
+      } else {
+        item.classList.remove('active_btn');
+      }
+    });
+  };
+
+  const sortDataOutput = (data, className) => {
+    const btnArr = document.querySelectorAll(className);
+    const elemSwitch = btnArr[btnArr.length - 1];
+    const { keyForLS } = DB;
+    const dataForDetailTable = getDataFromLocalStorage(keyForLS);
+    const btns = document.querySelectorAll('.btn__details');
+
+    const activeBtn = [...btnArr]
+      .slice(0, 2)
+      .filter(item => item.classList.contains('active_btn'))[0];
+
+    if (elemSwitch.dataset.sortSwitch === 'absolute' && activeBtn.dataset.sort === 'total') {
+      setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'total');
+      changeActiveClass(btns, 'total');
+      if (className === '.btn__countries') {
+        dataInsertion(data, [...btnArr].slice(0, -1), 'total');
+      }
+    } else if (elemSwitch.dataset.sortSwitch === 'relative' && activeBtn.dataset.sort === 'total') {
+      setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'relativeTotal');
+      changeActiveClass(btns, 'relativeTotal');
+      if (className === '.btn__countries') {
+        dataInsertion(data, [...btnArr].slice(0, -1), 'relativeTotal');
+      }
+    }
+
+    if (elemSwitch.dataset.sortSwitch === 'absolute' && activeBtn.dataset.sort === 'lastDay') {
+      setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'lastDay');
+      changeActiveClass(btns, 'lastDay');
+      if (className === '.btn__countries') {
+        dataInsertion(data, [...btnArr].slice(0, -1), 'lastDay');
+      }
+    } else if (
+      elemSwitch.dataset.sortSwitch === 'relative' &&
+      activeBtn.dataset.sort === 'lastDay'
+    ) {
+      setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'relativeLast');
+      changeActiveClass(btns, 'relativeLast');
+      if (className === '.btn__countries') {
+        dataInsertion(data, [...btnArr].slice(0, -1), 'relativeLast');
+      }
+    }
+  };
+
+  const changeOutputData = (data, mode, className) => {
+    const btnArr = document.querySelectorAll(className);
+    const switchButton = btnArr[btnArr.length - 1];
+
+    if (mode === 'total' || mode === 'lastDay') {
+      switchButton.innerText = 'absolute';
+      switchButton.dataset.sortSwitch = 'absolute';
+    }
+
+    if (mode === 'relativeTotal' || mode === 'relativeLast') {
+      switchButton.innerText = 'relative';
+      switchButton.dataset.sortSwitch = 'relative';
+    }
+
+    if (mode === 'total' || mode === 'relativeTotal') {
+      changeActiveClass([...btnArr].slice(0, 2), 'total');
+    }
+
+    if (mode === 'lastDay' || mode === 'relativeLast') {
+      changeActiveClass([...btnArr].slice(0, 2), 'lastDay');
+    }
+
+    if (className === '.btn__countries') {
+      dataInsertion(data, [...btnArr].slice(0, -1), mode);
+    }
   };
 
   const handlerEventClick = e => {
@@ -79,11 +169,48 @@ const App = () => {
       }
 
       const { keyForLS } = DB;
-      const data = getDataFromLocalStorage(keyForLS);
+      const dataForDetailTable = getDataFromLocalStorage(keyForLS);
+      const { data } = getCountriesData();
       const mode = elem.dataset.sort;
-      setElementsToDetailedTable('.root__item_details-main', data, mode);
+
+      changeOutputData(data, mode, '.btn__countries');
+      changeOutputData(data, mode, '.btn__footer-map');
+      setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, mode);
       btns.forEach(item => item.classList.remove('active_btn'));
       elem.classList.add('active_btn');
+    }
+
+    if (elem.classList.contains('btn__countries') || elem.classList.contains('btn__footer-map')) {
+      const { data } = getCountriesData();
+
+      const btnCountriesArr = document.querySelectorAll('.btn__countries');
+      const btnMapArr = document.querySelectorAll('.btn__footer-map');
+
+      if (elem.classList.contains('btn-switch')) {
+        const switchButtons = document.querySelectorAll('.btn-switch');
+
+        switchButtons.forEach(item => {
+          item.innerText = item.innerText === 'absolute' ? 'relative' : 'absolute';
+          item.dataset.sortSwitch =
+            item.dataset.sortSwitch === 'absolute' ? 'relative' : 'absolute';
+        });
+
+        sortDataOutput(data, '.btn__countries');
+      }
+
+      if (elem.dataset.sort === 'total' || elem.dataset.sort === 'lastDay') {
+        changeActiveClass([...btnCountriesArr].slice(0, 2), elem.dataset.sort);
+        changeActiveClass([...btnMapArr].slice(0, 2), elem.dataset.sort);
+        [...btnCountriesArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
+        [...btnMapArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
+        sortDataOutput(data, '.btn__countries');
+      }
+
+      if (elem.dataset.sort === 'deaths' || elem.dataset.sort === 'recovered') {
+        changeActiveClass([...btnCountriesArr].slice(2, 4), elem.dataset.sort);
+        changeActiveClass([...btnMapArr].slice(2, 4), elem.dataset.sort);
+        sortDataOutput(data, '.btn__countries');
+      }
     }
   };
 
