@@ -11,6 +11,7 @@ import addListeners from '../../services/add-listeners';
 import getElement from '../../utils/get-element';
 import toggleClasses from '../../utils/toggler-classes';
 import DB from '../../services/db';
+import graph from '../graph';
 
 const App = () => {
   const root = getElement('id', 'root');
@@ -20,6 +21,7 @@ const App = () => {
   const { getDataFromLocalStorage } = useLocalStorage();
   const { setCountries, sortCountries } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
+  const { setGraph } = graph();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -55,6 +57,7 @@ const App = () => {
       setMap('myMap', dataJSON, 'total');
       setCountries(data, '.root__item_country-main', 'total');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
+      setGraph('.root__item_graph-main');
     }, 600);
   };
 
