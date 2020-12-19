@@ -10,7 +10,7 @@ const counter = () => {
     const children = [
       createElement({
         tag: 'form',
-        classes: ['search__form'],
+        classes: ['root__item_counter-search'],
         children: [],
       }),
     ];
@@ -21,9 +21,9 @@ const counter = () => {
         id: 'text_to_find',
         attributes: {
           type: 'text',
-          value: '',
+          value: ' ',
           placeholder: 'Search',
-          onkeyup: "searchCountryName('text-to-find',false); return false;)", // TODO how get result from function
+          //  onkeyup: "searchCountryName('text-to-find',false); return false;)", // TODO how get result from function
           autofocus: '',
         },
       }),
@@ -48,24 +48,60 @@ const counter = () => {
     ];
     console.log('crated form');
     parent.append(...children);
-    document.querySelector('.search__form').append(...input);
-    // TODO
+    document.querySelector('.root__item_counter-search').append(...input);
   };
-  // eslint-disable-next-line no-unused-vars
   const createCountriesList = countries => {
-    // eslint-disable-next-line no-unused-vars
-    const parentEl = document.querySelector('');
+    const ulTagToRemove = document.querySelector('.root__item_counter-list');
+    if (ulTagToRemove !== null) {
+      ulTagToRemove.remove();
+    }
+    const parent = document.querySelector('.root__item_counter');
+    const ulTag = createElement({
+      tag: 'ul',
+      classes: ['root__item_counter-list'],
+    });
+    const arrChildren = countries.map(item => {
+      return createElement({
+        tag: 'li',
+        classes: ['countries'],
+        attributes: { dataIso3: item.info.countryInfo.iso3 },
+        children: [
+          // { tag: 'img', classes: ['flags'], attributes: { src: item.flag } },
+          { tag: 'p', classes: ['name__country'], innerText: item.info.country },
+        ],
+      });
+    });
+    if (arrChildren.length === 0) {
+      ulTag.append(
+        createElement({
+          tag: 'li',
+          classes: ['countries'],
+          attributes: { dataIso3: -1 },
+          children: [
+            { tag: 'p', classes: ['name__country'], innerText: 'Sorry...no countries to show... ' },
+          ],
+        }),
+      );
+    } else {
+      ulTag.append(...arrChildren);
+    }
+    parent.append(ulTag);
   };
 
   const searchCountries = dataToSearch => {
-    const data = getDataFromLocalStorage('countries');
-    const matcher = `/${dataToSearch}/`;
+    const data = getDataFromLocalStorage('countries').features;
+    //  const matcher = `/${dataToSearch}/`;
     const result = [];
-    data.forEach(obj => {
-      if (obj.country.match(matcher)) {
-        result.push(obj.country); // may be we need more info about country
+    console.log('in search method');
+    console.log(dataToSearch);
+    data.forEach(el => {
+      console.log(el.info.country.toUpperCase().indexOf(dataToSearch));
+      if (el.info.country.toUpperCase().indexOf(dataToSearch) !== -1) {
+        return result.push(el); // all info about country
       }
     });
+    // or any way send result in case length === 0
+    console.log(result);
     if (result.length > 0) {
       createCountriesList(result);
     }

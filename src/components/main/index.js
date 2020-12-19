@@ -86,15 +86,19 @@ const App = () => {
       elem.classList.add('active_btn');
     }
   };
-  const handlerEventKeyup = () => {
-    const textToSearch = document.querySelector('.search__form_text').innerText;
-    if (textToSearch.length > 3) {
-      searchCountries(textToSearch);
+  const handlerEventKeyup = e => {
+    console.log(e.value);
+    console.log('Keyup action');
+    const textToSearch = document.querySelector('.search__form_text').value;
+    console.log(textToSearch); //+
+    if (textToSearch.trim().length >= 3) {
+      console.log('ready to search');
+      searchCountries(textToSearch.trim().toUpperCase());
     }
   };
 
   addListeners(root, 'click', handlerEventClick);
-  addListeners(root, 'onkeyup', handlerEventKeyup);
+  addListeners(root, 'keyup', handlerEventKeyup);
 
   return {
     initialApp,
