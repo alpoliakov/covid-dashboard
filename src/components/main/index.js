@@ -11,13 +11,15 @@ import addListeners from '../../services/add-listeners';
 import getElement from '../../utils/get-element';
 import toggleClasses from '../../utils/toggler-classes';
 import DB from '../../services/db';
+import displayUpdateDate from '../date';
 
 const App = () => {
   const root = getElement('id', 'root');
 
   const { createElement, elementFactory } = creator();
-  const { setMap } = Map();
+  const { setMap, setJSONLayer, removeLayers } = Map();
   const { getDataFromLocalStorage } = useLocalStorage();
+  const { setUpdatedDate } = displayUpdateDate();
   const {
     setCountries,
     sortCountries,
@@ -36,18 +38,23 @@ const App = () => {
     const dateNow = new Date();
     const dateUpdated = getDataFromLocalStorage(keyData).features[0].info.updated;
     const diff = (dateNow - dateUpdated) / 3600000;
+    console.log(diff);
 
     if (diff > 1) {
       for (const [key, value] of Object.entries(OBJ_PATHS)) {
         wrapFetchAsync(value, setDataToDB, key);
+        setUpdatedDate(dateUpdated, '.root__item_date');
       }
     }
     // localStorage.clear();
   };
 
-  const getCountriesData = () => {
+  const getCountriesData = (iso3 = '') => {
     const dataJSON = getDataFromLocalStorage('countries');
-    const data = dataJSON.features;
+    const data =
+      iso3 === ''
+        ? dataJSON.features
+        : dataJSON.features.map(item => item.coutryInfo.iso3 === iso3);
     return { data, dataJSON };
   };
 
@@ -62,8 +69,12 @@ const App = () => {
       const { data, dataJSON } = getCountriesData();
       const dataTotal = getDataFromLocalStorage('world');
       DB.keyForLS = 'world';
-      setMap('myMap', dataJSON, 'total');
+      DB.newMode = 'total';
+      const btnArr = document.querySelectorAll('.btn__footer-map');
+      setMap('myMap');
+      setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'total');
       setCountries(data, '.root__item_country-main', 'total');
+      setUpdatedDate(data[0].info.updated, '.root__item_date');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
     }, 600);
   };
@@ -78,11 +89,9 @@ const App = () => {
     });
   };
 
-  const sortDataOutput = (data, className) => {
+  const sortDataOutput = (data, dataForDetailTable, dataJSON, className) => {
     const btnArr = document.querySelectorAll(className);
     const elemSwitch = btnArr[btnArr.length - 1];
-    const { keyForLS } = DB;
-    const dataForDetailTable = getDataFromLocalStorage(keyForLS);
     const btns = document.querySelectorAll('.btn__details');
 
     const activeBtn = [...btnArr]
@@ -92,12 +101,16 @@ const App = () => {
     if (elemSwitch.dataset.sortSwitch === 'absolute' && activeBtn.dataset.sort === 'total') {
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'total');
       changeActiveClass(btns, 'total');
+      removeLayers();
+      setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'total');
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'total');
       }
     } else if (elemSwitch.dataset.sortSwitch === 'relative' && activeBtn.dataset.sort === 'total') {
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'relativeTotal');
       changeActiveClass(btns, 'relativeTotal');
+      removeLayers();
+      setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'relativeTotal');
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'relativeTotal');
       }
@@ -106,6 +119,8 @@ const App = () => {
     if (elemSwitch.dataset.sortSwitch === 'absolute' && activeBtn.dataset.sort === 'lastDay') {
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'lastDay');
       changeActiveClass(btns, 'lastDay');
+      removeLayers();
+      setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'lastDay');
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'lastDay');
       }
@@ -115,13 +130,15 @@ const App = () => {
     ) {
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, 'relativeLast');
       changeActiveClass(btns, 'relativeLast');
+      removeLayers();
+      setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'relativeLast');
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'relativeLast');
       }
     }
   };
 
-  const changeOutputData = (data, mode, className) => {
+  const changeOutputData = (data, dataJSON, mode, className) => {
     const btnArr = document.querySelectorAll(className);
     const switchButton = btnArr[btnArr.length - 1];
 
@@ -143,6 +160,9 @@ const App = () => {
       changeActiveClass([...btnArr].slice(0, 2), 'lastDay');
     }
 
+    removeLayers();
+    setJSONLayer(dataJSON, [...btnArr].slice(0, -1), mode);
+
     if (className === '.btn__countries') {
       dataInsertion(data, [...btnArr].slice(0, -1), mode);
     }
@@ -150,6 +170,10 @@ const App = () => {
 
   const handlerEventClick = e => {
     const elem = e.target;
+    const { keyForLS, iso3 } = DB;
+    const dataForDetailTable =
+      iso3 === '' ? getDataFromLocalStorage(keyForLS) : getCountriesData(iso3);
+    const { data, dataJSON } = getCountriesData(iso3);
 
     if (elem.classList.contains('btn__countries_sort')) {
       const parentLists = elem.parentElement.nextElementSibling;
@@ -163,23 +187,19 @@ const App = () => {
 
       if (elem.classList.contains('btn__details-world')) {
         DB.keyForLS = elem.innerText;
+        DB.iso3 = '';
       }
 
-      const { keyForLS } = DB;
-      const dataForDetailTable = getDataFromLocalStorage(keyForLS);
-      const { data } = getCountriesData();
       const mode = elem.dataset.sort;
 
-      changeOutputData(data, mode, '.btn__countries');
-      changeOutputData(data, mode, '.btn__footer-map');
+      changeOutputData(data, dataJSON, mode, '.btn__countries');
+      changeOutputData(data, dataJSON, mode, '.btn__footer-map');
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, mode);
       btns.forEach(item => item.classList.remove('active_btn'));
       elem.classList.add('active_btn');
     }
 
     if (elem.classList.contains('btn__countries') || elem.classList.contains('btn__footer-map')) {
-      const { data } = getCountriesData();
-
       const btnCountriesArr = document.querySelectorAll('.btn__countries');
       const btnMapArr = document.querySelectorAll('.btn__footer-map');
 
@@ -192,7 +212,7 @@ const App = () => {
             item.dataset.sortSwitch === 'absolute' ? 'relative' : 'absolute';
         });
 
-        sortDataOutput(data, '.btn__countries');
+        sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
 
       if (elem.dataset.sort === 'total' || elem.dataset.sort === 'lastDay') {
@@ -200,14 +220,25 @@ const App = () => {
         changeActiveClass([...btnMapArr].slice(0, 2), elem.dataset.sort);
         [...btnCountriesArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
         [...btnMapArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
-        sortDataOutput(data, '.btn__countries');
+        sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
 
       if (elem.dataset.sort === 'deaths' || elem.dataset.sort === 'recovered') {
         changeActiveClass([...btnCountriesArr].slice(2, 4), elem.dataset.sort);
         changeActiveClass([...btnMapArr].slice(2, 4), elem.dataset.sort);
-        sortDataOutput(data, '.btn__countries');
+        sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
+    }
+
+    if (
+      elem.classList.contains('countries') ||
+      elem.classList.contains('flags') ||
+      elem.classList.contains('name__country') ||
+      elem.classList.contains('data__country')
+    ) {
+      const parentCountry = elem.closest('.countries');
+      parentCountry.zoom(1.5);
+      console.log(parentCountry);
     }
   };
 

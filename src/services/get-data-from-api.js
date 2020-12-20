@@ -4,6 +4,7 @@ import { processingReceivedData, receivedTotalData } from './processing-received
 const setDataToDB = (data, key) => {
   const { setDataToLocalStorage } = useLocalStorage();
   const sortData = key === 'world' ? receivedTotalData(data) : processingReceivedData(data);
+
   setDataToLocalStorage(key, sortData);
   console.log('A data request was made.');
   // localStorage.clear();
