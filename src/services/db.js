@@ -3,6 +3,7 @@ const DB = {
   iso3: '',
   map: null,
   legend: null,
+  popup: null,
   layer: null,
   info: null,
   mode: null,

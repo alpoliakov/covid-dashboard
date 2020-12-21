@@ -5,6 +5,7 @@ import creators from '../../utils/creators';
 const displayUpdateDate = () => {
   const setUpdatedDate = (date, className) => {
     const parentDate = document.querySelector(className);
+
     const options = {
       weekday: 'long',
       year: 'numeric',
@@ -19,9 +20,9 @@ const displayUpdateDate = () => {
 
     const { createElement } = creators();
     const time = new Date(date).toLocaleString('en-EN', options);
-    const elem = createElement({ tag: 'h4', classes: ['time'], innerText: time });
+    const elem = createElement({ tag: 'h4', classes: ['title_time'], innerText: time });
 
-    if (parentDate.children.length > 0) {
+    if (parentDate) {
       removeChildrenElements(parentDate);
     }
 

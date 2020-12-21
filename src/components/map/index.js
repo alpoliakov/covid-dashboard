@@ -25,6 +25,30 @@ const Map = () => {
     return 'red';
   };
 
+  const closePopup = () => {
+    const { map, popup } = DB;
+
+    if (popup !== null) {
+      map.removeLayer(popup);
+    }
+  };
+
+  const setPopUp = (data, btnsMap, mode) => {
+    const { map } = DB;
+    closePopup();
+    const arrActiveBtn = btnsMap.filter(item => item.classList.contains('active_btn'));
+    const field =
+      arrActiveBtn.length === 1 ? 'cases' : arrActiveBtn[arrActiveBtn.length - 1].dataset.sort;
+    const { lat, long } = data[mode];
+
+    const title = `<h4>${data[mode].country}</h4>
+                     <p>${field}: ${data[mode][field]}</p>`;
+
+    const popup = L.popup().setLatLng([lat, long]).setContent(title).addTo(map);
+
+    DB.popup = popup;
+  };
+
   const setMap = idElem => {
     const myMap = document.getElementById(idElem);
     const map = L.map(myMap, { worldCopyJump: true }).setView([30, 0], 2);
@@ -44,10 +68,6 @@ const Map = () => {
     const arrActiveBtn = arrButtons.filter(item => item.classList.contains('active_btn'));
     const field =
       arrActiveBtn.length === 1 ? 'cases' : arrActiveBtn[arrActiveBtn.length - 1].dataset.sort;
-
-    const result = [];
-    data.features.map(item => result.push(+item.info.relativeLast.deaths));
-    // console.log(result.sort((a, b) => a - b));
 
     info.onAdd = function () {
       this.div = L.DomUtil.create('div', 'info');
@@ -97,7 +117,7 @@ const Map = () => {
     };
 
     const zoomToFeature = e => {
-      map.fitBounds(e.target.getBounds());
+      map.fitBounds(e.target.getBounds(), { maxZoom: 14 });
     };
 
     const onEachFeature = (feature, layer) => {
@@ -122,11 +142,7 @@ const Map = () => {
     customLayer = L.geoJSON(data, {
       style,
       onEachFeature,
-    })
-      .bindPopup(layer => {
-        return layer.feature.properties.admin;
-      })
-      .addTo(map);
+    }).addTo(map);
 
     const legend = L.control({ position: 'bottomright' });
 
@@ -169,44 +185,9 @@ const Map = () => {
     setMap,
     setJSONLayer,
     removeLayers,
+    setPopUp,
+    closePopup,
   };
 };
 
 export default Map;
-
-// const getRadius = num => {
-//   if (num < 1000) return 4;
-//   if (num < 3000) return 6;
-//   if (num < 20000) return 8;
-//   if (num < 50000) return 12;
-//   if (num < 100000) return 14;
-//   if (num < 250000) return 16;
-//   if (num < 400000) return 18;
-//   if (num < 500000) return 20;
-//   if (num < 1000000) return 23;
-//
-//   return 26;
-// };
-
-// const setMarkersInMap = (map, data) => {
-//   if (data.length === 0) {
-//     return;
-//   }
-//
-//   data.forEach(({ country, cases, deaths, countryInfo: { lat, long } }) => {
-//     const icon = {
-//       color: getColor(cases),
-//       radius: getRadius(cases),
-//     };
-//
-//     const circle = L.circleMarker([lat, long], icon).addTo(map);
-//     const text = `<h2>${country}</h2><p>Cases: ${cases}</p><p>Deaths: ${deaths}</p>`;
-//     circle.bindPopup(text);
-//     circle.on('mouseover', () => {
-//       circle.bindPopup(text, { offset: L.point(0, -20) }).openPopup();
-//     });
-//     circle.on('mouseout', () => circle.closePopup());
-//   });
-// };
-
-// setMarkersInMap(map, data);
