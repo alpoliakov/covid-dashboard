@@ -12,6 +12,7 @@ import getElement from '../../utils/get-element';
 import toggleClasses from '../../utils/toggler-classes';
 import DB from '../../services/db';
 import displayUpdateDate from '../date';
+import counter from '../counter';
 
 const App = () => {
   const root = getElement('id', 'root');
@@ -22,6 +23,7 @@ const App = () => {
   const { setUpdatedDate } = displayUpdateDate();
   const { setCountries, sortCountries, highlightSelectedItem, dataInsertion } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
+  const { setCounter, searchCountries } = counter();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -74,6 +76,7 @@ const App = () => {
       setCountries(data, '.root__item_country-main', 'total');
       setUpdatedDate(data[0].info.updated, '.root__item_date');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
+      setCounter('.root__item_counter');
     }, 700);
   };
 
@@ -299,9 +302,29 @@ const App = () => {
       setPopUp(objCountry, [...btnsMap].slice(0, -1), mode);
       setElementsToDetailedTable('.root__item_details-main', objCountry, mode);
     }
+
+    if (elem.classList.contains('search__form_clear')) {
+      document.querySelector('.search__form_text').value = ' ';
+      const ulTagToRemove = document.querySelector('.root__item_counter-list');
+      if (ulTagToRemove !== null) {
+        ulTagToRemove.remove();
+      }
+    }
+  };
+
+  const handlerEventKeyup = () => {
+    const textToSearch = document.querySelector('.search__form_text').value;
+    const ulTagToRemove = document.querySelector('.root__item_counter-list');
+    if (ulTagToRemove !== null) {
+      ulTagToRemove.remove();
+    }
+    if (textToSearch.trim().length >= 3) {
+      searchCountries(textToSearch.trim().toUpperCase());
+    }
   };
 
   addListeners(root, 'click', handlerEventClick);
+  addListeners(root, 'keyup', handlerEventKeyup);
 
   return {
     initialApp,

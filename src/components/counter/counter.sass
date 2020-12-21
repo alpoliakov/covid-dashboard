@@ -1,0 +1,32 @@
+@import "../../utils/styles/variables"
+.root__item_counter
+  color: $theme-color
+  padding: 0 20px
+
+  .counter-form
+    display: flex
+    justify-content: center
+    width: fit-content
+    height: 10vh
+.countries
+  border-bottom: 1px solid $color-grey
+  transition: 0.4s
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 0
+
+  &:hover
+    transform: translate3d(1px, 1px, 10px)
+
+  &:hover > .name__country
+    color: $color-tomato
+
+.name__country,
+.data__country
+  filter: $drop-shadow
+  font-size: 1.1rem
+  margin: 8px
+
+.data__country
+  color: $dark-theme
