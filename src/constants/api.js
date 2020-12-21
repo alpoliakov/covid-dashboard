@@ -9,6 +9,7 @@ const BIG_DATA_PATH =
 const OBJ_PATHS = {
   countries: COUNTRIES_CASES_PATH,
   world: TOTAL_CASES_TODAY_PATH,
+  worldGraph: CUMULATIVE_TOTAL_PATH,
 };
 
 export {

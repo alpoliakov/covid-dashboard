@@ -67,7 +67,8 @@ const App = () => {
       setMap('myMap', dataJSON, 'total');
       setCountries(data, '.root__item_country-main', 'total');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
-      setGraph('.root__item_graph-main');
+      const dataWorldGraph = getDataFromLocalStorage('worldGraph');
+      setGraph('.root__item_graph-main', dataWorldGraph, 'relativeTotal');
     }, 600);
   };
 

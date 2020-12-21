@@ -1,4 +1,5 @@
 import customJSON from './medium.geo.json';
+import useLocalStorage from '../utils/local-storage-accessors';
 
 const createObj = (flag, country, cases, deaths, recovered) => {
   return {
@@ -95,4 +96,32 @@ const receivedTotalData = data => {
   return data;
 };
 
-export { processingReceivedData, receivedTotalData };
+const processingWorldGraphData = data => {
+  const { getDataFromLocalStorage } = useLocalStorage();
+  const { population } = getDataFromLocalStorage('world');
+  const result = { total: {}, relativeTotal: {}, lastDay: {}, relativeLast: {} };
+
+  Object.keys(data).forEach(k => {
+    Object.values(result).forEach(resValue => {
+      resValue[k] = [];
+    });
+
+    Object.entries(data[k]).reduce((acc, [key, value]) => {
+      const dateStr = Date.parse(key);
+      const relValue = Number((100000 * (value / population)).toFixed(2));
+      const todayValue = value - acc;
+      const relTodayValue = Number((100000 * (todayValue / population)).toFixed(2));
+
+      result.total[k].push([dateStr, value]);
+      result.relativeTotal[k].push([dateStr, relValue]);
+      result.lastDay[k].push([dateStr, todayValue]);
+      result.relativeLast[k].push([dateStr, relTodayValue]);
+
+      return value;
+    }, 0);
+  });
+
+  return result;
+};
+
+export { processingReceivedData, receivedTotalData, processingWorldGraphData };

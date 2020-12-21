@@ -178,11 +178,54 @@ const dataApp = [
     tag: 'div',
     classes: ['root__item', 'root__item_graph', 'tables'],
     children: [
+      {
+        tag: 'div',
+        classes: ['root__item_graph-header', 'tables__header'],
+        children: [
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__details', 'btn__details-world', 'active_btn'],
+            innerText: 'world',
+            attributes: { 'data-sort': 'total' },
+          },
+        ],
+      },
       { tag: 'div', classes: ['root__item_graph-main', 'tables__main'] },
       {
         tag: 'div',
         classes: ['root__item_graph-footer', 'tables__footer'],
-        children: [{ tag: 'h4', innerText: 'Footer' }],
+        children: [
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__graph', 'active_btn'],
+            innerText: 'total',
+            attributes: { 'data-sort': 'total' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__graph'],
+            innerText: 'last day',
+            attributes: { 'data-sort': 'lastDay' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__graph'],
+            innerText: 'deaths',
+            attributes: { 'data-sort': 'deaths' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__graph'],
+            innerText: 'recovered',
+            attributes: { 'data-sort': 'recovered' },
+          },
+          {
+            tag: 'button',
+            classes: ['btn', 'btn__graph', 'active_btn', 'btn-switch'],
+            innerText: 'absolute',
+            attributes: { 'data-sort-switch': 'absolute' },
+          },
+        ],
       },
     ],
   },

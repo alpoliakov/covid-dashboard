@@ -2,26 +2,35 @@ import zingchart from 'zingchart/index';
 import './graph.sass';
 import creators from '../../utils/creators';
 import removeChildrenElements from '../../utils/remove-children-el';
-import { CUMULATIVE_TOTAL_PATH } from '../../constants/api';
-import wrapFetchAsync from '../../utils/requests';
+import GRAPH_CONFIG from './constants';
 
 const graph = () => {
-  let cumulative;
-
-  const handleData = (data, key) => {
-    if (key === 'world') {
-      console.log(data);
-    }
-  };
-
-  const getData = () => {
-    wrapFetchAsync(CUMULATIVE_TOTAL_PATH, handleData, 'world');
-  };
-
   const { createElement } = creators();
-  getData();
 
-  const setGraph = className => {
+  const renderGraph = (data, mode, field = 'cases') => {
+    const config = JSON.parse(JSON.stringify(GRAPH_CONFIG));
+
+    if (mode === 'total' || mode === 'relativeTotal') {
+      config.series = [{ values: data[mode][field], 'line-width': 5 }];
+      config.type = 'line';
+      config['scale-y'] = {
+        short: true,
+        'short-unit': 'K',
+      };
+    } else {
+      config.series = [{ values: data[mode][field], 'bar-width': '10%' }];
+      config.type = 'bar';
+    }
+
+    zingchart.render({
+      id: 'graph',
+      data: config,
+      height: '100%',
+      width: '100%',
+    });
+  };
+
+  const setGraph = (className, data, mode) => {
     const parent = document.querySelector(className);
     removeChildrenElements(parent);
 
@@ -30,28 +39,7 @@ const graph = () => {
     const childrenArr = template.map(item => createElement(item));
     parent.append(...childrenArr);
 
-    const myConfig = {
-      type: 'line',
-      series: [
-        {
-          values: [
-            [0, 20],
-            [1, 40],
-            [3, 50],
-            [4, 15],
-            [6, 33],
-            [7, 34],
-          ],
-        },
-      ],
-    };
-
-    zingchart.render({
-      id: 'graph',
-      data: myConfig,
-      height: '100%',
-      width: '100%',
-    });
+    renderGraph(data, mode);
   };
 
   return {
