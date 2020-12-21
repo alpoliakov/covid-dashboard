@@ -79,7 +79,7 @@ const App = () => {
       setUpdatedDate(data[0].info.updated, '.root__item_date');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
       const dataWorldGraph = getDataFromLocalStorage('worldGraph');
-      setGraph('.root__item_graph-main', dataWorldGraph, 'relativeTotal');
+      setGraph('.root__item_graph-main', dataWorldGraph, 'total');
     }, 600);
   };
 
@@ -198,14 +198,20 @@ const App = () => {
 
       changeOutputData(data, dataJSON, mode, '.btn__countries');
       changeOutputData(data, dataJSON, mode, '.btn__footer-map');
+      changeOutputData(data, dataJSON, mode, '.btn__graph');
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, mode);
       btns.forEach(item => item.classList.remove('active_btn'));
       elem.classList.add('active_btn');
     }
 
-    if (elem.classList.contains('btn__countries') || elem.classList.contains('btn__footer-map')) {
+    if (
+      elem.classList.contains('btn__countries') ||
+      elem.classList.contains('btn__footer-map') ||
+      elem.classList.contains('btn__graph')
+    ) {
       const btnCountriesArr = document.querySelectorAll('.btn__countries');
       const btnMapArr = document.querySelectorAll('.btn__footer-map');
+      const btnGraphArr = document.querySelectorAll('.btn__graph');
 
       if (elem.classList.contains('btn-switch')) {
         const switchButtons = document.querySelectorAll('.btn-switch');
@@ -222,14 +228,17 @@ const App = () => {
       if (elem.dataset.sort === 'total' || elem.dataset.sort === 'lastDay') {
         changeActiveClass([...btnCountriesArr].slice(0, 2), elem.dataset.sort);
         changeActiveClass([...btnMapArr].slice(0, 2), elem.dataset.sort);
+        changeActiveClass([...btnGraphArr].slice(0, 2), elem.dataset.sort);
         [...btnCountriesArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
         [...btnMapArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
+        [...btnGraphArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
         sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
 
       if (elem.dataset.sort === 'deaths' || elem.dataset.sort === 'recovered') {
         changeActiveClass([...btnCountriesArr].slice(2, 4), elem.dataset.sort);
         changeActiveClass([...btnMapArr].slice(2, 4), elem.dataset.sort);
+        changeActiveClass([...btnGraphArr].slice(2, 4), elem.dataset.sort);
         sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
     }

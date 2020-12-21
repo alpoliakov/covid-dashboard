@@ -184,7 +184,7 @@ const dataApp = [
         children: [
           {
             tag: 'button',
-            classes: ['btn', 'btn__details', 'btn__details-world', 'active_btn'],
+            classes: ['btn', 'btn__graph', 'btn__graph-world', 'active_btn'],
             innerText: 'world',
             attributes: { 'data-sort': 'total' },
           },
