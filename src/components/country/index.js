@@ -56,10 +56,15 @@ const countriesTable = () => {
     });
   };
 
+  const highlightSelectedItem = elem => {
+    elem.childNodes.forEach(item => item.classList.remove('zoom'));
+  };
+
   return {
     setCountries,
     sortCountries,
     dataInsertion,
+    highlightSelectedItem,
   };
 };
 

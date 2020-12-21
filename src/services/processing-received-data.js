@@ -1,8 +1,10 @@
 import customJSON from './medium.geo.json';
 
-const createObj = (flag, country, cases, deaths, recovered) => {
+const createObj = (flag, lat, long, country, cases, deaths, recovered) => {
   return {
     flag,
+    lat,
+    long,
     country,
     cases,
     deaths,
@@ -12,28 +14,43 @@ const createObj = (flag, country, cases, deaths, recovered) => {
 
 const processingReceivedData = data => {
   data.map(item => {
-    const total = createObj(item.flag, item.country, item.cases, item.deaths, item.recovered);
+    const total = createObj(
+      item.countryInfo.flag,
+      item.countryInfo.lat,
+      item.countryInfo.long,
+      item.country,
+      item.cases,
+      item.deaths,
+      item.recovered,
+    );
     const lastDay = createObj(
-      item.flag,
+      item.countryInfo.flag,
+      item.countryInfo.lat,
+      item.countryInfo.long,
       item.country,
       item.todayCases,
       item.todayDeaths,
       item.todayRecovered,
     );
     const relativeTotal = createObj(
-      item.flag,
+      item.countryInfo.flag,
+      item.countryInfo.lat,
+      item.countryInfo.long,
       item.country,
       +(item.casesPerOneMillion / 10).toFixed(2),
       +(item.deathsPerOneMillion / 10).toFixed(2),
       +(item.recoveredPerOneMillion / 10).toFixed(2),
     );
     const relativeLast = createObj(
-      item.flag,
+      item.countryInfo.flag,
+      item.countryInfo.lat,
+      item.countryInfo.long,
       item.country,
       +(100000 * (item.todayCases / item.population)).toFixed(2),
       +(100000 * (item.todayDeaths / item.population)).toFixed(2),
       +(100000 * (item.todayRecovered / item.population)).toFixed(2),
     );
+
     item.relativeTotal = relativeTotal;
     item.relativeLast = relativeLast;
     item.lastDay = lastDay;
