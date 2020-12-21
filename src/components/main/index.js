@@ -12,6 +12,7 @@ import getElement from '../../utils/get-element';
 import toggleClasses from '../../utils/toggler-classes';
 import DB from '../../services/db';
 import displayUpdateDate from '../date';
+import searcher from '../searcher';
 
 const App = () => {
   const root = getElement('id', 'root');
@@ -19,9 +20,10 @@ const App = () => {
   const { createElement, elementFactory } = creator();
   const { setMap, setJSONLayer, removeLayers, setPopUp, closePopup } = Map();
   const { getDataFromLocalStorage } = useLocalStorage();
-  const { setUpdatedDate } = displayUpdateDate();
+  const { setUpdatedDate, updateDate } = displayUpdateDate();
   const { setCountries, sortCountries, highlightSelectedItem, dataInsertion } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
+  const { setInputElement } = searcher();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -39,8 +41,8 @@ const App = () => {
       for (const [key, value] of Object.entries(OBJ_PATHS)) {
         wrapFetchAsync(value, setDataToDB, key);
         setTimeout(() => {
-          setUpdatedDate(dateNow, '.root__item_date');
-        }, 600);
+          updateDate(dateNow);
+        }, 1000);
       }
     }
     // localStorage.clear();
@@ -73,6 +75,7 @@ const App = () => {
       setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'total');
       setCountries(data, '.root__item_country-main', 'total');
       setUpdatedDate(data[0].info.updated, '.root__item_date');
+      setInputElement('.root__item_searcher');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
     }, 700);
   };

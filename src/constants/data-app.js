@@ -1,7 +1,7 @@
 const dataApp = [
   {
     tag: 'div',
-    classes: ['root__item', 'root__item_counter'],
+    classes: ['root__item', 'root__item_searcher'],
   },
   {
     tag: 'div',
