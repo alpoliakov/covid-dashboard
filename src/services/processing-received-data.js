@@ -77,11 +77,23 @@ const processingReceivedData = data => {
 const receivedTotalData = data => {
   data.country = 'World';
   data.flag = 'https://vectorflags.s3-us-west-2.amazonaws.com/flags/org-un-flag-01.png';
+  data.lat = '';
+  data.long = '';
 
-  const total = createObj(data.flag, data.country, data.cases, data.deaths, data.recovered);
+  const total = createObj(
+    data.flag,
+    data.lat,
+    data.long,
+    data.country,
+    data.cases,
+    data.deaths,
+    data.recovered,
+  );
 
   const lastDay = createObj(
     data.flag,
+    data.lat,
+    data.long,
     data.country,
     data.todayCases,
     data.todayDeaths,
@@ -90,6 +102,8 @@ const receivedTotalData = data => {
 
   const relativeTotal = createObj(
     data.flag,
+    data.lat,
+    data.long,
     data.country,
     (data.casesPerOneMillion / 10).toFixed(2),
     (data.deathsPerOneMillion / 10).toFixed(2),
@@ -98,6 +112,8 @@ const receivedTotalData = data => {
 
   const relativeLast = createObj(
     data.flag,
+    data.lat,
+    data.long,
     data.country,
     (100000 * (data.todayCases / data.population)).toFixed(2),
     (100000 * (data.todayDeaths / data.population)).toFixed(2),
