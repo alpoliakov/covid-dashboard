@@ -7,7 +7,7 @@ import GRAPH_CONFIG from './constants';
 const graph = () => {
   const { createElement } = creators();
 
-  const renderGraph = (data, mode, field = 'cases') => {
+  const renderGraph = (data, mode, field) => {
     const config = JSON.parse(JSON.stringify(GRAPH_CONFIG));
 
     if (mode === 'total' || mode === 'relativeTotal') {
@@ -30,7 +30,11 @@ const graph = () => {
     });
   };
 
-  const setGraph = (className, data, mode) => {
+  const setGraph = (className, data, mode, arrButtons = []) => {
+    const arrActiveBtn = arrButtons.filter(item => item.classList.contains('active_btn'));
+    const field =
+      arrActiveBtn.length <= 1 ? 'cases' : arrActiveBtn[arrActiveBtn.length - 1].dataset.sort;
+
     const parent = document.querySelector(className);
     removeChildrenElements(parent);
 
@@ -39,7 +43,7 @@ const graph = () => {
     const childrenArr = template.map(item => createElement(item));
     parent.append(...childrenArr);
 
-    renderGraph(data, mode);
+    renderGraph(data, mode, field);
   };
 
   return {

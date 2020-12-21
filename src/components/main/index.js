@@ -107,6 +107,12 @@ const App = () => {
       changeActiveClass(btns, 'total');
       removeLayers();
       setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'total');
+      setGraph(
+        '.root__item_graph-main',
+        getDataFromLocalStorage('worldGraph'),
+        'total',
+        [...btnArr].slice(0, -1),
+      );
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'total');
       }
@@ -115,6 +121,12 @@ const App = () => {
       changeActiveClass(btns, 'relativeTotal');
       removeLayers();
       setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'relativeTotal');
+      setGraph(
+        '.root__item_graph-main',
+        getDataFromLocalStorage('worldGraph'),
+        'relativeTotal',
+        [...btnArr].slice(0, -1),
+      );
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'relativeTotal');
       }
@@ -125,6 +137,12 @@ const App = () => {
       changeActiveClass(btns, 'lastDay');
       removeLayers();
       setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'lastDay');
+      setGraph(
+        '.root__item_graph-main',
+        getDataFromLocalStorage('worldGraph'),
+        'lastDay',
+        [...btnArr].slice(0, -1),
+      );
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'lastDay');
       }
@@ -136,6 +154,12 @@ const App = () => {
       changeActiveClass(btns, 'relativeLast');
       removeLayers();
       setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'relativeLast');
+      setGraph(
+        '.root__item_graph-main',
+        getDataFromLocalStorage('worldGraph'),
+        'relativeLast',
+        [...btnArr].slice(0, -1),
+      );
       if (className === '.btn__countries') {
         dataInsertion(data, [...btnArr].slice(0, -1), 'relativeLast');
       }
@@ -170,6 +194,13 @@ const App = () => {
     if (className === '.btn__countries') {
       dataInsertion(data, [...btnArr].slice(0, -1), mode);
     }
+
+    setGraph(
+      '.root__item_graph-main',
+      getDataFromLocalStorage('worldGraph'),
+      mode,
+      [...btnArr].slice(0, -1),
+    );
   };
 
   const handlerEventClick = e => {
