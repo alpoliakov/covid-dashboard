@@ -24,16 +24,16 @@ const processingReceivedData = data => {
     const relativeTotal = createObj(
       item.flag,
       item.country,
-      (item.casesPerOneMillion / 10).toFixed(2),
-      (item.deathsPerOneMillion / 10).toFixed(2),
-      (item.recoveredPerOneMillion / 10).toFixed(2),
+      +(item.casesPerOneMillion / 10).toFixed(2),
+      +(item.deathsPerOneMillion / 10).toFixed(2),
+      +(item.recoveredPerOneMillion / 10).toFixed(2),
     );
     const relativeLast = createObj(
       item.flag,
       item.country,
-      (100000 * (item.todayCases / item.population)).toFixed(2),
-      (100000 * (item.todayDeaths / item.population)).toFixed(2),
-      (100000 * (item.todayRecovered / item.population)).toFixed(2),
+      +(100000 * (item.todayCases / item.population)).toFixed(2),
+      +(100000 * (item.todayDeaths / item.population)).toFixed(2),
+      +(100000 * (item.todayRecovered / item.population)).toFixed(2),
     );
     item.relativeTotal = relativeTotal;
     item.relativeLast = relativeLast;
@@ -54,7 +54,7 @@ const processingReceivedData = data => {
   customJSON.features = customJSON.features.filter(item => {
     return Object.prototype.hasOwnProperty.call(item, 'info');
   });
-  console.log(customJSON);
+
   return customJSON;
 };
 

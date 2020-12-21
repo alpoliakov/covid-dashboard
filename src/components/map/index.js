@@ -1,57 +1,31 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import DB from '../../services/db';
 
 const Map = () => {
-  // const getRadius = num => {
-  //   if (num < 1000) return 4;
-  //   if (num < 3000) return 6;
-  //   if (num < 20000) return 8;
-  //   if (num < 50000) return 12;
-  //   if (num < 100000) return 14;
-  //   if (num < 250000) return 16;
-  //   if (num < 400000) return 18;
-  //   if (num < 500000) return 20;
-  //   if (num < 1000000) return 23;
-  //
-  //   return 26;
-  // };
-
-  const getColor = d => {
+  const getColor = (d, arr) => {
     if (d === undefined) return 'white';
-    if (d < 1000) return '#5e4fa2';
-    if (d < 3000) return '#3288bd';
-    if (d < 20000) return '#66c2a5';
-    if (d < 50000) return '#abdda4';
-    if (d < 100000) return '#e6f598';
-    if (d < 250000) return '#ffffbf';
-    if (d < 400000) return '#fee08b';
-    if (d < 500000) return '#fdae61';
-    if (d < 1000000) return 'tomato';
+    const colorsArr = [
+      '#5e4fa2',
+      '#3288bd',
+      '#66c2a5',
+      '#abdda4',
+      '#e6f598',
+      '#ffffbf',
+      '#fee08b',
+      '#fdae61',
+      '#fc8715',
+      '#ff6347',
+    ];
+    for (let i = 0; i < arr.length; i++) {
+      if (d <= +arr[i]) {
+        return colorsArr[i];
+      }
+    }
     return 'red';
   };
 
-  // const setMarkersInMap = (map, data) => {
-  //   if (data.length === 0) {
-  //     return;
-  //   }
-  //
-  //   data.forEach(({ country, cases, deaths, countryInfo: { lat, long } }) => {
-  //     const icon = {
-  //       color: getColor(cases),
-  //       radius: getRadius(cases),
-  //     };
-  //
-  //     const circle = L.circleMarker([lat, long], icon).addTo(map);
-  //     const text = `<h2>${country}</h2><p>Cases: ${cases}</p><p>Deaths: ${deaths}</p>`;
-  //     circle.bindPopup(text);
-  //     circle.on('mouseover', () => {
-  //       circle.bindPopup(text, { offset: L.point(0, -20) }).openPopup();
-  //     });
-  //     circle.on('mouseout', () => circle.closePopup());
-  //   });
-  // };
-
-  const setMap = (idElem, data = [], mode) => {
+  const setMap = idElem => {
     const myMap = document.getElementById(idElem);
     const map = L.map(myMap, { worldCopyJump: true }).setView([30, 0], 2);
 
@@ -61,19 +35,25 @@ const Map = () => {
       'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=iOay4iXHmxfQ4n471QOS';
     const tiles = L.tileLayer(tileUrl, { attribution, minZoom: 2, maxZoom: 18 });
     tiles.addTo(map);
+    DB.map = map;
+  };
 
-    L.control.scale({ metric: true, imperial: false, position: 'topright' }).addTo(map);
-
+  const setJSONLayer = (data = [], arrButtons, mode) => {
+    const { map } = DB;
     const info = L.control();
+    const arrActiveBtn = arrButtons.filter(item => item.classList.contains('active_btn'));
+    const field =
+      arrActiveBtn.length === 1 ? 'cases' : arrActiveBtn[arrActiveBtn.length - 1].dataset.sort;
+
+    const result = [];
+    data.features.map(item => result.push(+item.info.relativeLast.deaths));
+    // console.log(result.sort((a, b) => a - b));
 
     info.onAdd = function () {
       this.div = L.DomUtil.create('div', 'info');
       this.update();
-
       return this.div;
     };
-
-    console.log(data.features);
 
     info.update = function (props) {
       this.div.innerHTML = `<h4>Country info</h4>${
@@ -101,12 +81,10 @@ const Map = () => {
         layer.bringToFront();
       }
 
-      const { cases, deaths, recovered } = layer.feature.info[mode];
+      const text = layer.feature.info[mode][field];
 
       const title = `<h4>${layer.feature.properties.admin}</h4>
-                     <p>Cases: ${cases}</p>
-                     <p>Deaths: ${deaths}</p>
-                     <p>Recovered: ${recovered}</p>`;
+                     <p>${field}: ${text}</p>`;
 
       info.update(countryInfo);
       layer.bindPopup(title, { offset: L.point(0, 0) }).openPopup();
@@ -137,7 +115,7 @@ const Map = () => {
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.5,
-        fillColor: getColor(feature.info[mode].cases),
+        fillColor: getColor(feature.info[mode][field], DB[mode][field]),
       };
     };
 
@@ -150,13 +128,11 @@ const Map = () => {
       })
       .addTo(map);
 
-    // setMarkersInMap(map, data);
-
     const legend = L.control({ position: 'bottomright' });
 
     legend.onAdd = function () {
       const div = L.DomUtil.create('div', 'info legend');
-      const grades = [0, 1000, 3000, 20000, 50000, 100000, 250000, 400000, 500000, 1000000];
+      const grades = DB[mode][field];
       const labels = [];
       let from;
       let to;
@@ -166,7 +142,9 @@ const Map = () => {
         to = grades[i + 1];
 
         labels.push(
-          `<i style="background:${getColor(from + 1)}"></i> ${from}${to ? `&ndash;${to}` : '+'}`,
+          `<i style="background:${getColor(from, DB[mode][field])}"></i> ${from}${
+            to ? `&ndash;${to}` : '+'
+          }`,
         );
       }
 
@@ -175,11 +153,60 @@ const Map = () => {
     };
 
     legend.addTo(map);
+    DB.legend = legend;
+    DB.layer = customLayer;
+    DB.info = info;
+  };
+
+  const removeLayers = () => {
+    const { map, layer, legend, info } = DB;
+    map.removeControl(legend);
+    map.removeControl(info);
+    map.removeLayer(layer);
   };
 
   return {
     setMap,
+    setJSONLayer,
+    removeLayers,
   };
 };
 
 export default Map;
+
+// const getRadius = num => {
+//   if (num < 1000) return 4;
+//   if (num < 3000) return 6;
+//   if (num < 20000) return 8;
+//   if (num < 50000) return 12;
+//   if (num < 100000) return 14;
+//   if (num < 250000) return 16;
+//   if (num < 400000) return 18;
+//   if (num < 500000) return 20;
+//   if (num < 1000000) return 23;
+//
+//   return 26;
+// };
+
+// const setMarkersInMap = (map, data) => {
+//   if (data.length === 0) {
+//     return;
+//   }
+//
+//   data.forEach(({ country, cases, deaths, countryInfo: { lat, long } }) => {
+//     const icon = {
+//       color: getColor(cases),
+//       radius: getRadius(cases),
+//     };
+//
+//     const circle = L.circleMarker([lat, long], icon).addTo(map);
+//     const text = `<h2>${country}</h2><p>Cases: ${cases}</p><p>Deaths: ${deaths}</p>`;
+//     circle.bindPopup(text);
+//     circle.on('mouseover', () => {
+//       circle.bindPopup(text, { offset: L.point(0, -20) }).openPopup();
+//     });
+//     circle.on('mouseout', () => circle.closePopup());
+//   });
+// };
+
+// setMarkersInMap(map, data);
