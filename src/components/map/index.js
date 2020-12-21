@@ -118,6 +118,7 @@ const Map = () => {
 
     const zoomToFeature = e => {
       map.fitBounds(e.target.getBounds(), { maxZoom: 14 });
+      console.log(e.target.feature.info);
     };
 
     const onEachFeature = (feature, layer) => {

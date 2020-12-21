@@ -68,6 +68,7 @@ const App = () => {
       elementFactory(root, dataApp, createElement);
       const { data, dataJSON } = getCountriesData();
       const dataTotal = getDataFromLocalStorage('world');
+      console.log(dataTotal);
       DB.keyForLS = 'world';
       DB.newMode = 'total';
       const btnArr = document.querySelectorAll('.btn__footer-map');
