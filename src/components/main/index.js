@@ -14,6 +14,7 @@ import DB from '../../services/db';
 import displayUpdateDate from '../date';
 import searcher from '../searcher';
 import graph from '../graph';
+import resizeButton from '../resize-button';
 
 const App = () => {
   const root = getElement('id', 'root');
@@ -26,6 +27,7 @@ const App = () => {
   const { setElementsToDetailedTable } = detailedTable();
   const { setInputElement } = searcher();
   const { setCharts } = graph();
+  const { resizeBlock } = resizeButton();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -336,6 +338,10 @@ const App = () => {
 
       setPopUp(objCountry, [...btnsMap].slice(0, -1), mode);
       setElementsToDetailedTable('.root__item_details-main', objCountry, mode);
+    }
+
+    if (elem.classList.contains('btn__resize')) {
+      resizeBlock(elem);
     }
   };
 

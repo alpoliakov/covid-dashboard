@@ -8,6 +8,10 @@ const dataApp = [
     classes: ['root__item', 'root__item_country', 'tables'],
     children: [
       {
+        tag: 'button',
+        classes: ['btn__resize'],
+      },
+      {
         tag: 'div',
         classes: ['root__item_country-header', 'tables__header'],
         children: [
@@ -78,11 +82,21 @@ const dataApp = [
   {
     tag: 'div',
     classes: ['root__item', 'root__item_date'],
+    children: [
+      {
+        tag: 'button',
+        classes: ['btn__resize'],
+      },
+    ],
   },
   {
     tag: 'div',
     classes: ['root__item', 'root__item_map'],
     children: [
+      {
+        tag: 'button',
+        classes: ['btn__resize'],
+      },
       { tag: 'div', id: 'myMap' },
       {
         tag: 'div',
@@ -126,6 +140,10 @@ const dataApp = [
     tag: 'div',
     classes: ['root__item', 'root__item_details', 'tables'],
     children: [
+      {
+        tag: 'button',
+        classes: ['btn__resize'],
+      },
       {
         tag: 'div',
         classes: ['root__item_details-header', 'tables__header'],
@@ -178,6 +196,10 @@ const dataApp = [
     tag: 'div',
     classes: ['root__item', 'root__item_graph', 'tables'],
     children: [
+      {
+        tag: 'button',
+        classes: ['btn__resize'],
+      },
       { tag: 'div', id: 'charts', classes: ['root__item_graph-main', 'tables__main'] },
       {
         tag: 'div',
