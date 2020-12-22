@@ -48,6 +48,7 @@ const graph = () => {
     let scaleY = {
       short: true,
       'short-unit': 'K',
+      'min-value': '0',
     };
 
     if (typeOutputData === 'absolute') {

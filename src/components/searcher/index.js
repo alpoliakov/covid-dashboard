@@ -52,8 +52,14 @@ const searcher = () => {
       tag: 'input',
       id: 'mySearch',
       classes: ['searcher'],
-      attributes: { type: 'text', placeholder: 'Search...', title: 'Type in a category' },
+      attributes: {
+        type: 'text',
+        placeholder: 'Search...',
+        title: 'Type in a category',
+        'virtual-keyboard': '',
+      },
     });
+
     result.push(input);
     input.addEventListener('keyup', searchCountry);
 
