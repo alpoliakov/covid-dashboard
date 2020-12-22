@@ -329,6 +329,7 @@ const App = () => {
       parentCountry.classList.add('zoom');
       DB.keyForLS = 'country';
       DB.iso3 = parentCountry.dataset.iso3;
+      console.log(DB.iso3);
       input.value = parentCountry.firstElementChild.nextElementSibling.textContent.trim();
       input.dispatchEvent(eventKey);
       const { data: objCountry } = getCountriesData(parentCountry.dataset.iso3);
