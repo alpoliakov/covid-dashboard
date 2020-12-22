@@ -1,6 +1,7 @@
 @import "../../utils/styles/variables"
 
 .btn__resize
+  display: none
   z-index: 500
   position: absolute
   top: 3px
@@ -12,11 +13,18 @@
   background-size: contain
   background-image: url("../../assets/icons/expand.svg")
   background-color: transparent
+  transition: 0.3s
 
   &:hover
 	  filter: drop-shadow(5px 5px 5px #001628)
     transform: translate3d(0px, 0px, 10px)
     color: $color-success-text
+
+.root__item:hover .btn__resize
+  display: block
+
+.full-screen .btn__resize
+  display: block
 
 .btn__expanded
   background-image: url("../../assets/icons/collapse.svg")
