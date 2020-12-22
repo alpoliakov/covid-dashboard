@@ -82,7 +82,7 @@ const App = () => {
       setUpdatedDate(data[0].info.updated, '.root__item_date');
       setInputElement('.root__item_searcher');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
-      setCharts('total');
+      setCharts();
     }, 700);
   };
 
@@ -248,6 +248,7 @@ const App = () => {
         const parentCountriesElem = document.querySelector('.root__item_country-main');
         highlightSelectedItem(parentCountriesElem);
         setElementsToDetailedTable('.root__item_details-main', worldData, modeNow);
+        setCharts();
         return;
       }
 
@@ -255,6 +256,7 @@ const App = () => {
       changeOutputData(data, dataJSON, mode, '.btn__footer-map');
       changeOutputData(data, dataJSON, mode, '.btn__footer-graph');
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, mode);
+      setCharts();
       btns.forEach(item => item.classList.remove('active_btn'));
       elem.classList.add('active_btn');
     }
@@ -296,6 +298,7 @@ const App = () => {
         changeActiveClass([...btnGraphArr].slice(2, 4), elem.dataset.sort);
         sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
+      setCharts();
     }
 
     if (
@@ -323,6 +326,7 @@ const App = () => {
         DB.iso3 = '';
         const worldData = getDataFromLocalStorage(DB.keyForLS);
         closePopup();
+        setCharts();
         setElementsToDetailedTable('.root__item_details-main', worldData, mode);
         return;
       }
@@ -331,11 +335,11 @@ const App = () => {
       parentCountry.classList.add('zoom');
       DB.keyForLS = 'country';
       DB.iso3 = parentCountry.dataset.iso3;
-      console.log(DB.iso3);
       input.value = parentCountry.firstElementChild.nextElementSibling.textContent.trim();
       input.dispatchEvent(eventKey);
       const { data: objCountry } = getCountriesData(parentCountry.dataset.iso3);
 
+      setCharts();
       setPopUp(objCountry, [...btnsMap].slice(0, -1), mode);
       setElementsToDetailedTable('.root__item_details-main', objCountry, mode);
     }
