@@ -1,8 +1,15 @@
 import './searcher.sass';
 import creators from '../../utils/creators';
+import Map from '../map';
+import useLocalStorage from '../../utils/local-storage-accessors';
+import DB from '../../services/db';
+import detailedTable from '../detailed-table';
 
 const searcher = () => {
   const { createElement } = creators();
+  const { closePopup } = Map();
+  const { getDataFromLocalStorage } = useLocalStorage();
+  const { setElementsToDetailedTable } = detailedTable();
 
   const searchCountry = () => {
     const input = document.getElementById('mySearch');
@@ -17,6 +24,24 @@ const searcher = () => {
       } else {
         countriesList[i].style.display = 'none';
       }
+    }
+
+    if (filter === '') {
+      countriesList.forEach(item => item.classList.remove('zoom'));
+      const btns = document.querySelectorAll('.btn__details');
+      let mode = null;
+
+      btns.forEach(item => {
+        if (item.classList.contains('active_btn')) {
+          mode = item.dataset.sort;
+        }
+      });
+
+      DB.keyForLS = 'world';
+      DB.iso3 = '';
+      const worldData = getDataFromLocalStorage(DB.keyForLS);
+      setElementsToDetailedTable('.root__item_details-main', worldData, mode);
+      closePopup();
     }
   };
 

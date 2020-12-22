@@ -13,6 +13,7 @@ import toggleClasses from '../../utils/toggler-classes';
 import DB from '../../services/db';
 import displayUpdateDate from '../date';
 import searcher from '../searcher';
+import graph from '../graph';
 
 const App = () => {
   const root = getElement('id', 'root');
@@ -24,6 +25,7 @@ const App = () => {
   const { setCountries, sortCountries, highlightSelectedItem, dataInsertion } = countriesTable();
   const { setElementsToDetailedTable } = detailedTable();
   const { setInputElement } = searcher();
+  const { setCharts } = graph();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -68,16 +70,17 @@ const App = () => {
       elementFactory(root, dataApp, createElement);
       const { data, dataJSON } = getCountriesData();
       const dataTotal = getDataFromLocalStorage('world');
-      console.log(dataTotal);
       DB.keyForLS = 'world';
       DB.newMode = 'total';
       const btnArr = document.querySelectorAll('.btn__footer-map');
+
       setMap('myMap');
       setJSONLayer(dataJSON, [...btnArr].slice(0, -1), 'total');
       setCountries(data, '.root__item_country-main', 'total');
       setUpdatedDate(data[0].info.updated, '.root__item_date');
       setInputElement('.root__item_searcher');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
+      setCharts('total');
     }, 700);
   };
 
@@ -204,9 +207,16 @@ const App = () => {
   const handlerEventClick = e => {
     const elem = e.target;
     const { keyForLS, iso3 } = DB;
+    const input = document.getElementById('mySearch');
     const dataForDetailTable =
       iso3 === '' ? getDataFromLocalStorage(keyForLS) : getCountriesData(iso3).data;
     const { data, dataJSON } = getCountriesData();
+
+    const eventKey = new KeyboardEvent('keyup', {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
 
     if (elem.classList.contains('btn__countries_sort')) {
       const parentLists = elem.parentElement.nextElementSibling;
@@ -220,25 +230,41 @@ const App = () => {
       const mode = elem.dataset.sort;
 
       if (elem.classList.contains('btn__details-world')) {
+        let modeNow = null;
+
+        btns.forEach(item => {
+          if (item.classList.contains('active_btn')) {
+            modeNow = item.dataset.sort;
+          }
+        });
+
         DB.keyForLS = elem.innerText;
         DB.iso3 = '';
+        input.value = '';
+        input.dispatchEvent(eventKey);
         const worldData = getDataFromLocalStorage(DB.keyForLS);
         const parentCountriesElem = document.querySelector('.root__item_country-main');
         highlightSelectedItem(parentCountriesElem);
-        setElementsToDetailedTable('.root__item_details-main', worldData, mode);
+        setElementsToDetailedTable('.root__item_details-main', worldData, modeNow);
         return;
       }
 
       changeOutputData(data, dataJSON, mode, '.btn__countries');
       changeOutputData(data, dataJSON, mode, '.btn__footer-map');
+      changeOutputData(data, dataJSON, mode, '.btn__footer-graph');
       setElementsToDetailedTable('.root__item_details-main', dataForDetailTable, mode);
       btns.forEach(item => item.classList.remove('active_btn'));
       elem.classList.add('active_btn');
     }
 
-    if (elem.classList.contains('btn__countries') || elem.classList.contains('btn__footer-map')) {
+    if (
+      elem.classList.contains('btn__countries') ||
+      elem.classList.contains('btn__footer-map') ||
+      elem.classList.contains('btn__footer-graph')
+    ) {
       const btnCountriesArr = document.querySelectorAll('.btn__countries');
       const btnMapArr = document.querySelectorAll('.btn__footer-map');
+      const btnGraphArr = document.querySelectorAll('.btn__footer-graph');
 
       if (elem.classList.contains('btn-switch')) {
         const switchButtons = document.querySelectorAll('.btn-switch');
@@ -255,14 +281,17 @@ const App = () => {
       if (elem.dataset.sort === 'total' || elem.dataset.sort === 'lastDay') {
         changeActiveClass([...btnCountriesArr].slice(0, 2), elem.dataset.sort);
         changeActiveClass([...btnMapArr].slice(0, 2), elem.dataset.sort);
+        changeActiveClass([...btnGraphArr].slice(0, 2), elem.dataset.sort);
         [...btnCountriesArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
         [...btnMapArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
+        [...btnGraphArr].slice(2, 4).forEach(item => item.classList.remove('active_btn'));
         sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
 
       if (elem.dataset.sort === 'deaths' || elem.dataset.sort === 'recovered') {
         changeActiveClass([...btnCountriesArr].slice(2, 4), elem.dataset.sort);
         changeActiveClass([...btnMapArr].slice(2, 4), elem.dataset.sort);
+        changeActiveClass([...btnGraphArr].slice(2, 4), elem.dataset.sort);
         sortDataOutput(data, dataForDetailTable, dataJSON, '.btn__countries');
       }
     }
@@ -286,6 +315,8 @@ const App = () => {
 
       if (parentCountry.classList.contains('zoom')) {
         parentCountry.classList.remove('zoom');
+        input.value = '';
+        input.dispatchEvent(eventKey);
         DB.keyForLS = 'world';
         DB.iso3 = '';
         const worldData = getDataFromLocalStorage(DB.keyForLS);
@@ -298,6 +329,8 @@ const App = () => {
       parentCountry.classList.add('zoom');
       DB.keyForLS = 'country';
       DB.iso3 = parentCountry.dataset.iso3;
+      input.value = parentCountry.firstElementChild.nextElementSibling.textContent.trim();
+      input.dispatchEvent(eventKey);
       const { data: objCountry } = getCountriesData(parentCountry.dataset.iso3);
 
       setPopUp(objCountry, [...btnsMap].slice(0, -1), mode);

@@ -118,7 +118,24 @@ const Map = () => {
 
     const zoomToFeature = e => {
       map.fitBounds(e.target.getBounds(), { maxZoom: 14 });
-      console.log(e.target.feature.info);
+      const { iso3 } = e.target.feature.info.countryInfo;
+      DB.iso3 = iso3;
+      const currentCountry = document.querySelector(`[data-iso3=${iso3}]`);
+      const input = document.getElementById('mySearch');
+      input.value = '';
+      input.value = currentCountry.firstElementChild.nextElementSibling.textContent.trim();
+      const event = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      const eventKey = new KeyboardEvent('keyup', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      input.dispatchEvent(eventKey);
+      currentCountry.dispatchEvent(event);
     };
 
     const onEachFeature = (feature, layer) => {
