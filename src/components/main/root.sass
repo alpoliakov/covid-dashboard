@@ -73,3 +73,17 @@
 .root__item_graph
 	grid-area: graph
 	height: 35vh
+
+@media (max-width: 1190px)
+	#root
+		height: 100%
+		grid: 'map map' 'counter details' 'country details' 'country graph' 'date graph'
+		grid-template-rows: 90vh 10vh 40vh 40vh 10vh
+
+	.root__item_graph
+		height: 53vh
+
+@media (max-width: 679px)
+	#root
+		grid: 'map' 'date' 'counter' 'country' 'details' 'graph'
+		grid-template-rows: 90vh 10vh 10vh 60vh 50vh 50vh

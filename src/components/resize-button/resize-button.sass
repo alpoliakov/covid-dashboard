@@ -1,13 +1,14 @@
 @import "../../utils/styles/variables"
 
 .btn__resize
-  display: none
+  opacity: 0
+  pointer-events: none
   z-index: 500
   position: absolute
   top: 3px
   right: 3px
-  width: 15px
-  height: 15px
+  width: 20px
+  height: 20px
   border: none
   background-repeat: no-repeat
   background-size: contain
@@ -21,18 +22,25 @@
     color: $color-success-text
 
 .root__item:hover .btn__resize
-  display: block
+  opacity: 1
+  pointer-events: all
 
 .full-screen .btn__resize
-  display: block
+  opacity: 1
+  pointer-events: all
 
 .btn__expanded
   background-image: url("../../assets/icons/collapse.svg")
 
 .full-screen
   position: absolute
-  width: 98%
+  width: 90%
   height: 80%
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  margin: auto
 
 .hidden
   display: none

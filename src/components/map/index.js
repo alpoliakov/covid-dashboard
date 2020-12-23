@@ -51,20 +51,23 @@ const Map = () => {
 
   const setMap = idElem => {
     const myMap = document.getElementById(idElem);
-    const map = L.map(myMap, { worldCopyJump: true }).setView([30, 0], 2);
+    const map = L.map(myMap, {
+      worldCopyJump: true,
+      maxBoundsViscosity: 1.0,
+    }).setView([30, 0], 2);
 
     const attribution =
       '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
     const tileUrl =
       'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=iOay4iXHmxfQ4n471QOS';
-    const tiles = L.tileLayer(tileUrl, { attribution, minZoom: 2, maxZoom: 18 });
+    const tiles = L.tileLayer(tileUrl, { attribution, minZoom: 2, maxZoom: 16 });
     tiles.addTo(map);
     DB.map = map;
   };
 
   const setJSONLayer = (data = [], arrButtons, mode) => {
     const { map } = DB;
-    const info = L.control();
+    const info = L.control({ position: 'bottomleft' });
     const arrActiveBtn = arrButtons.filter(item => item.classList.contains('active_btn'));
     const field =
       arrActiveBtn.length === 1 ? 'cases' : arrActiveBtn[arrActiveBtn.length - 1].dataset.sort;
@@ -117,7 +120,7 @@ const Map = () => {
     };
 
     const zoomToFeature = e => {
-      map.fitBounds(e.target.getBounds(), { maxZoom: 14 });
+      map.fitBounds(e.target.getBounds(), { maxZoom: 10 });
       const { iso3 } = e.target.feature.info.countryInfo;
       DB.iso3 = iso3;
       const currentCountry = document.querySelector(`[data-iso3=${iso3}]`);
@@ -161,6 +164,10 @@ const Map = () => {
       style,
       onEachFeature,
     }).addTo(map);
+
+    const bounds = customLayer.getBounds();
+
+    map.fitBounds(bounds);
 
     const legend = L.control({ position: 'bottomright' });
 
