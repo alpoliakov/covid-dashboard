@@ -99,7 +99,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new MiniCssExtractPlugin({
-      filename: `${PATHS.styles}[name].[hash:8].css`,
+      filename: `[name].[hash:8].css`,
       chunkFilename: '[id].css',
     }),
     new HotModuleReplacementPlugin(),
