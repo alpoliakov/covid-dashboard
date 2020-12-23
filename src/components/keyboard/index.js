@@ -29,6 +29,8 @@ const keyboardElem = () => {
       keyboard.setOptions({
         layoutName: shiftToggle,
       });
+
+      document.querySelector('.simple-keyboard').classList.add('show__keyboard');
     }
 
     document.querySelector('.searcher').addEventListener('input', event => {

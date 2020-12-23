@@ -62,7 +62,7 @@ const searcher = () => {
 
     const iconOpenKeyboard = createElement({
       tag: 'ion-icon',
-      classes: ['open-keyboard'],
+      classes: ['btn-keyboard-toggle'],
       attributes: {
         name: 'apps-outline',
       },
