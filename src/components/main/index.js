@@ -355,6 +355,11 @@ const App = () => {
       const keyboard = elem.nextElementSibling;
       keyboard.classList.toggle('show__keyboard');
     }
+
+    if (elem.classList.contains('btn-clear-input')) {
+      input.value = '';
+      input.dispatchEvent(eventKey);
+    }
   };
 
   addListeners(root, 'click', handlerEventClick);
