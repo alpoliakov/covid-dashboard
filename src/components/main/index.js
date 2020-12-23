@@ -351,7 +351,7 @@ const App = () => {
       resizeBlock(elem);
     }
 
-    if (elem.classList.contains('open-keyboard')) {
+    if (elem.classList.contains('btn-keyboard-toggle')) {
       const keyboard = elem.nextElementSibling;
       keyboard.classList.toggle('show__keyboard');
     }
