@@ -1,10 +1,13 @@
 import useLocalStorage from '../utils/local-storage-accessors';
+import { processingReceivedData, receivedTotalData } from './processing-received-data';
 
-const getDataCountriesTotalFromAPI = data => {
-  const { getDataFromLocalStorage, setDataToLocalStorage } = useLocalStorage();
-  if (data && getDataFromLocalStorage('countries_total').length === 0) {
-    setDataToLocalStorage('countries_total', data);
-  }
+const setDataToDB = (data, key) => {
+  const { setDataToLocalStorage } = useLocalStorage();
+  const sortData = key === 'world' ? receivedTotalData(data) : processingReceivedData(data);
+
+  setDataToLocalStorage(key, sortData);
+  console.log('A data request was made.');
+  // localStorage.clear();
 };
 
-export default getDataCountriesTotalFromAPI;
+export default setDataToDB;

@@ -1,5 +1,3 @@
-// import axios from 'axios';
-
 const fetchAsync = async url => {
   try {
     const response = await fetch(url, {
@@ -20,9 +18,9 @@ const fetchAsync = async url => {
   }
 };
 
-const wrapFetchAsync = (url, func) => {
+const wrapFetchAsync = (url, func, key) => {
   fetchAsync(url).then(data => {
-    func(data);
+    func(data, key);
   });
 };
 

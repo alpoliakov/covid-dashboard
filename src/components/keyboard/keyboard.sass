@@ -1,0 +1,16 @@
+@import '../../utils/styles/variables'
+
+.simple-keyboard
+	position: absolute
+	bottom: -240px
+	max-width: 850px
+	transform: translateY(-100%)
+	opacity: 0
+	pointer-events: none
+	transition: 0.4s
+
+.show__keyboard
+	transform: translateY(0)
+	opacity: 0.8
+	pointer-events: all
+	z-index: 10

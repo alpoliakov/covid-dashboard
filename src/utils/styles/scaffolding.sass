@@ -18,3 +18,47 @@ body
 	grid-template-areas: 'header''root''footer'
 	grid-row-gap: 10px
 
+.btn
+	border: none
+	color: $color-secondary-text
+	background: transparent
+	font-size: 1.1rem
+	margin: 10px 3px
+	filter: drop-shadow(10px 10px 10px #001628)
+	transition: 0.2s
+	cursor: pointer
+	padding: 5px 0
+	font-variant: small-caps
+	font-weight: 500
+
+	&:hover
+		filter: drop-shadow(5px 5px 5px #001628)
+		transform: translate3d(0px, 0px, 10px)
+		color: $color-success-text
+
+.active_btn
+	color: $color-danger
+	animation: filter-animation 5s infinite
+
+@keyframes filter-animation
+	0%
+		filter: sepia(0) saturate(2)
+	50%
+		filter: sepia(1) saturate(8)
+	100%
+		filter: sepia(0) saturate(2)
+
+
+
+@media (max-width: 1420px)
+	.btn
+		font-size: 1rem
+
+@media (max-width: 1279px)
+	.btn
+		font-size: 1rem
+		margin: 10px 0
+
+@media (max-width: 1098px)
+	.btn
+		font-size: 0.9rem
