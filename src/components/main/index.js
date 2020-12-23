@@ -15,6 +15,7 @@ import displayUpdateDate from '../date';
 import searcher from '../searcher';
 import graph from '../graph';
 import resizeButton from '../resize-button';
+import keyboardElem from '../keyboard';
 
 const App = () => {
   const root = getElement('id', 'root');
@@ -28,6 +29,7 @@ const App = () => {
   const { setInputElement } = searcher();
   const { setCharts } = graph();
   const { resizeBlock } = resizeButton();
+  const { setKeyboard } = keyboardElem();
 
   const dataUpdateRegulation = keyData => {
     if (getDataFromLocalStorage(keyData).length === 0) {
@@ -83,6 +85,7 @@ const App = () => {
       setInputElement('.root__item_searcher');
       setElementsToDetailedTable('.root__item_details-main', dataTotal, 'total');
       setCharts();
+      setKeyboard();
     }, 700);
   };
 
@@ -346,6 +349,11 @@ const App = () => {
 
     if (elem.classList.contains('btn__resize')) {
       resizeBlock(elem);
+    }
+
+    if (elem.classList.contains('open-keyboard')) {
+      const keyboard = elem.nextElementSibling;
+      keyboard.classList.toggle('show__keyboard');
     }
   };
 

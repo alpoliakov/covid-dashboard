@@ -34,6 +34,7 @@
     "gsap": "^3.5.1",
     "leaflet": "^1.7.1",
     "postcss": "^8.1.8",
+    "simple-keyboard": "^2.32.68",
     "terser-webpack-plugin": "4.2.3",
     "zingchart": "^2.9.2"
   },

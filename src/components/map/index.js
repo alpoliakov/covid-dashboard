@@ -56,10 +56,11 @@ const Map = () => {
       maxBoundsViscosity: 1.0,
     }).setView([30, 0], 2);
 
-    const attribution =
-      '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
-    const tileUrl =
-      'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=iOay4iXHmxfQ4n471QOS';
+    const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
+    //   '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
+    const tileUrl = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+    // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    // 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=iOay4iXHmxfQ4n471QOS';
     const tiles = L.tileLayer(tileUrl, { attribution, minZoom: 2, maxZoom: 16 });
     tiles.addTo(map);
     DB.map = map;
