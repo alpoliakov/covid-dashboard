@@ -60,6 +60,14 @@ const searcher = () => {
       },
     });
 
+    const btnClearInput = createElement({
+      tag: 'ion-icon',
+      classes: ['btn-clear-input'],
+      attributes: {
+        name: 'close-circle-outline',
+      },
+    });
+
     const iconOpenKeyboard = createElement({
       tag: 'ion-icon',
       classes: ['btn-keyboard-toggle'],
@@ -73,7 +81,7 @@ const searcher = () => {
       classes: ['simple-keyboard'],
     });
 
-    result.push(input, iconOpenKeyboard, keyboard);
+    result.push(btnClearInput, input, iconOpenKeyboard, keyboard);
     input.addEventListener('keyup', searchCountry);
 
     parent.append(...result);
