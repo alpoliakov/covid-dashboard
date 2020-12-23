@@ -9,12 +9,10 @@ const keyboardElem = () => {
     function onChange(input) {
       const inputElem = document.querySelector('.searcher');
       inputElem.value = input;
-      console.log('Input changed', input);
       searchCountry();
     }
 
     function onKeyPress(button) {
-      console.log('Button pressed', button);
       // eslint-disable-next-line no-use-before-define
       if (button === '{shift}' || button === '{lock}') handleShift();
     }
