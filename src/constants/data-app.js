@@ -1,3 +1,26 @@
+const childrenCountry = [
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+  { tag: 'p', innerText: 'Main' },
+];
+
 const dataApp = [
   {
     tag: 'div',
@@ -40,6 +63,7 @@ const dataApp = [
       {
         tag: 'div',
         classes: ['root__item_country-main', 'tables__main'],
+        children: childrenCountry,
       },
       {
         tag: 'div',
@@ -159,6 +183,7 @@ const dataApp = [
       {
         tag: 'div',
         classes: ['root__item_details-main', 'tables__main'],
+        children: childrenCountry,
       },
       {
         tag: 'div',
