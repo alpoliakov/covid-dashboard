@@ -60,13 +60,26 @@ const searcher = () => {
       },
     });
 
-    result.push(input);
+    const iconOpenKeyboard = createElement({
+      tag: 'ion-icon',
+      classes: ['open-keyboard'],
+      attributes: {
+        name: 'apps-outline',
+      },
+    });
+
+    const keyboard = createElement({
+      tag: 'div',
+      classes: ['simple-keyboard'],
+    });
+
+    result.push(input, iconOpenKeyboard, keyboard);
     input.addEventListener('keyup', searchCountry);
 
     parent.append(...result);
   };
 
-  return { setInputElement };
+  return { setInputElement, searchCountry };
 };
 
 export default searcher;

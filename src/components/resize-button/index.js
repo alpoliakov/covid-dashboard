@@ -12,7 +12,7 @@ const resizeButton = () => {
           const { map } = DB;
           setTimeout(() => {
             map.invalidateSize();
-          }, 200);
+          }, 300);
         }
       }
     });
