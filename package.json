@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.0.2",
-    "gsap": "^3.5.1",
+    "gsap": "^3.6.0",
     "leaflet": "^1.7.1",
     "postcss": "^8.1.8",
     "simple-keyboard": "^2.32.68",
