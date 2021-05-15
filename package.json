@@ -33,7 +33,7 @@
     "autoprefixer": "^10.0.2",
     "gsap": "^3.6.0",
     "leaflet": "^1.7.1",
-    "postcss": "^8.1.8",
+    "postcss": "^8.2.10",
     "simple-keyboard": "^2.32.68",
     "terser-webpack-plugin": "4.2.3",
     "zingchart": "^2.9.2"
